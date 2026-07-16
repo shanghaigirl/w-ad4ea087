@@ -51,7 +51,7 @@ body {
   font-size: 15px; line-height: 1.65;
 }
 .num { font-family: 'EB Garamond', Georgia, serif; font-variant-numeric: tabular-nums; }
-.wrap { max-width: 640px; margin: 0 auto; padding: 28px 20px 90px; }
+.wrap { max-width: 680px; margin: 0 auto; padding: 28px 20px 90px; }
 
 header { margin-bottom: 6px; }
 .eyebrow { font-size: 11px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; font-weight: 600; margin-bottom: 6px; }
@@ -82,11 +82,10 @@ input[type="text"], textarea {
   width: 100%; padding: 9px 12px; font-size: 14px; border: 1px solid var(--rule);
   border-radius: 8px; background: var(--paper); color: var(--ink); font-family: inherit;
 }
-textarea { min-height: 130px; line-height: 1.7; resize: vertical; }
+textarea { min-height: 120px; line-height: 1.7; resize: vertical; }
 label.lab { font-size: 12.5px; color: var(--muted); display: block; margin: 14px 0 5px; }
 #audioFile { display: none; }
 
-/* 素材库 */
 .mat { display: flex; align-items: center; gap: 12px; padding: 13px 0; border-top: 1px solid var(--rule); }
 .mat:first-of-type { border-top: none; }
 .mat .info { flex: 1; min-width: 0; cursor: pointer; }
@@ -94,53 +93,72 @@ label.lab { font-size: 12.5px; color: var(--muted); display: block; margin: 14px
 .mat .meta { font-size: 12.5px; color: var(--muted); }
 .mat .meta b { color: var(--gold); font-family: 'EB Garamond', Georgia, serif; }
 .empty-note { color: var(--muted); font-size: 13.5px; text-align: center; padding: 18px 0; }
+.badge { font-size: 10.5px; letter-spacing: 1px; color: var(--moss); border: 1px solid var(--moss); border-radius: 5px; padding: 1px 5px; margin-left: 6px; }
 
-/* 播放控制条 */
 .deck {
-  position: sticky; top: 0; z-index: 20; background: var(--card);
-  border: 1px solid var(--rule); border-radius: 12px; box-shadow: var(--shadow);
-  padding: 12px 16px; margin-top: 18px;
-  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  background: var(--card); border: 1px solid var(--rule); border-radius: 12px;
+  padding: 10px 14px; margin-top: 14px;
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
 }
-.deck .t { font-family: 'EB Garamond', Georgia, serif; font-size: 13px; color: var(--muted); min-width: 78px; }
-.deck input[type="range"] { flex: 1; min-width: 90px; accent-color: var(--gold); }
-.deck .spd { font-size: 12px; color: var(--gold); font-weight: 600; min-width: 42px; text-align: right; }
+.deck .t { font-family: 'EB Garamond', Georgia, serif; font-size: 13px; color: var(--muted); min-width: 64px; }
+.deck input[type="range"] { flex: 1; min-width: 80px; accent-color: var(--gold); }
+.deck .spd { font-size: 12px; color: var(--gold); font-weight: 600; min-width: 40px; text-align: right; }
 .roundbtn {
   width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid var(--gold);
   background: transparent; color: var(--gold); font-size: 17px; line-height: 1; padding: 0;
 }
 .roundbtn.play { background: var(--gold); color: var(--card); }
 
-/* 断句标记 */
-.mark-current {
-  background: var(--well); border-radius: 10px; padding: 14px 16px; margin: 14px 0;
-  font-size: 16px; line-height: 1.7; min-height: 62px;
-}
-.mark-current .idx { font-family: 'EB Garamond', Georgia, serif; color: var(--gold); margin-right: 8px; }
-.mark-next { font-size: 12.5px; color: var(--muted); margin: -6px 0 14px; }
-.markbar { display: flex; gap: 10px; flex-wrap: wrap; }
+/* 专注模式 */
+.focus { background: var(--well); border-radius: 12px; padding: 22px 20px; margin: 14px 0; min-height: 150px; }
+.focus .hd { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+.focus .sid { font-family: 'EB Garamond', Georgia, serif; color: var(--gold); font-size: 15px; letter-spacing: 1px; }
+.focus .cnt { font-size: 12px; color: var(--muted); }
+.focus .big { font-size: 21px; line-height: 1.75; }
+.focus .big b { font-weight: 700; color: var(--ink); border-bottom: 2px solid var(--gold-soft); }
+.focus .big .pb { color: var(--gold); font-weight: 600; padding: 0 2px; }
+.focus.rec-on { box-shadow: inset 0 0 0 2px var(--cinnabar); }
 
-/* 跟读台句子行 */
-.sent { padding: 12px 0; border-top: 1px solid var(--rule); }
-.sent:first-of-type { border-top: none; }
-.sent .top { display: flex; align-items: flex-start; gap: 10px; }
-.sent .no { font-family: 'EB Garamond', Georgia, serif; color: var(--muted); font-size: 12px; min-width: 26px; padding-top: 3px; }
-.sent .txt { flex: 1; font-size: 15.5px; line-height: 1.75; min-width: 0; }
-.sent .txt b { color: var(--ink); font-weight: 700; }
-.sent .txt .pb { color: var(--gold); font-weight: 600; padding: 0 1px; }
-.sent.passed .txt { color: var(--muted); }
-.sent.active { background: color-mix(in srgb, var(--gold) 7%, transparent); border-radius: 8px; margin: 0 -8px; padding: 12px 8px; }
-.sent .ctrl { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; align-items: center; }
-.sent .ctrl button { padding: 5px 13px; font-size: 12.5px; border-radius: 8px; }
-.sent .ctrl button.on { border-color: var(--gold); color: var(--gold); font-weight: 600; }
-.sent .ctrl button.recing { border-color: var(--cinnabar); color: var(--cinnabar); font-weight: 700; animation: pulse 1.2s infinite; }
+.keys { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+.keys button { padding: 8px 14px; font-size: 13px; }
+.keys button.on { border-color: var(--gold); color: var(--gold); font-weight: 600; }
+.keys button.recing { border-color: var(--cinnabar); color: var(--cinnabar); font-weight: 700; animation: pulse 1.2s infinite; }
+.keys button.ok { border-color: var(--moss); color: var(--moss); font-weight: 600; }
+.keys .kb { font-size: 10px; opacity: .5; margin-left: 3px; }
 @keyframes pulse { 50% { opacity: .45; } }
-.sent .ctrl .pass { margin-left: auto; }
-.sent .ctrl .pass.ok { border-color: var(--moss); color: var(--moss); font-weight: 600; }
-.hasrec { font-size: 11px; color: var(--moss); }
+
+/* 列表 */
+.sent { padding: 9px 0; border-top: 1px solid var(--rule); display: flex; gap: 10px; cursor: pointer; align-items: flex-start; }
+.sent:first-of-type { border-top: none; }
+.sent .no { font-family: 'EB Garamond', Georgia, serif; color: var(--muted); font-size: 12px; min-width: 26px; padding-top: 3px; }
+.sent .txt { flex: 1; font-size: 14.5px; line-height: 1.7; min-width: 0; }
+.sent .txt b { color: var(--ink); font-weight: 700; }
+.sent .txt .pb { color: var(--gold); font-weight: 600; }
+.sent.passed .txt { color: var(--muted); }
+.sent.cur { background: color-mix(in srgb, var(--gold) 8%, transparent); border-radius: 8px; margin: 0 -8px; padding: 9px 8px; }
+.sent .tag { font-size: 10px; color: var(--moss); padding-top: 4px; }
+
+/* 复盘抽屉 */
+details.drawer { margin-top: 14px; border: 1px solid var(--rule); border-radius: 10px; background: var(--paper); }
+details.drawer > summary { cursor: pointer; padding: 10px 14px; font-size: 13.5px; color: var(--ink-soft); list-style: none; }
+details.drawer > summary::-webkit-details-marker { display: none; }
+details.drawer > summary::before { content: '▸ '; color: var(--gold); }
+details.drawer[open] > summary::before { content: '▾ '; }
+.drawer .body { padding: 4px 14px 14px; }
+.metric { display: flex; align-items: baseline; gap: 8px; padding: 7px 0; border-top: 1px dashed var(--rule); font-size: 13px; }
+.metric:first-child { border-top: none; }
+.metric .k { color: var(--muted); min-width: 84px; }
+.metric .v { font-family: 'EB Garamond', Georgia, serif; font-size: 15px; }
+.metric .good { color: var(--moss); } .metric .warn { color: var(--cinnabar); }
+canvas.wave { width: 100%; height: 54px; display: block; border-radius: 6px; background: var(--well); margin-top: 4px; }
+.wlab { font-size: 11px; color: var(--muted); margin-top: 6px; }
+.histrow { display: flex; align-items: center; gap: 8px; font-size: 12.5px; padding: 5px 0; border-top: 1px dashed var(--rule); }
+.histrow .when { color: var(--muted); font-family: 'EB Garamond', Georgia, serif; flex: 1; }
 
 .progressline { font-size: 13px; color: var(--ink-soft); margin-top: 12px; }
 .progressline b { font-family: 'EB Garamond', Georgia, serif; color: var(--gold); font-size: 16px; }
+.bar { height: 4px; background: var(--rule); border-radius: 2px; margin-top: 8px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--gold); border-radius: 2px; transition: width .3s; }
 
 footer { margin-top: 28px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; color: var(--muted); font-size: 12px; }
 footer a { color: var(--gold); text-decoration: none; }
@@ -152,8 +170,11 @@ footer a { color: var(--gold); text-decoration: none; }
   max-width: 88vw; text-align: center;
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+:root[data-theme="dark"] .toast { background: var(--gold); color: #16130e; }
 .hint-block { font-size: 12.5px; color: var(--muted); line-height: 1.8; margin-top: 10px; }
+.warnbox { background: var(--cinnabar-soft); border-radius: 8px; padding: 10px 12px; font-size: 12.5px; color: var(--ink-soft); margin-top: 10px; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+@media (max-width: 480px) { .focus .big { font-size: 19px; } h1 { font-size: 28px; } }
 </style>
 </head>
 <body>
@@ -170,15 +191,18 @@ footer a { color: var(--gold); text-decoration: none; }
     <section class="card">
       <div class="card-head">
         <span class="card-title">素材库</span>
-        <button class="gold" id="btnNew">＋ 新建素材</button>
+        <span>
+          <button id="btnImportData">导入备份</button>
+          <button class="gold" id="btnNew">＋ 新建素材</button>
+        </span>
       </div>
-      <div id="matList"><div class="empty-note">还没有素材。从下面「内置素材」一键导入，或「新建素材」自己传。</div></div>
-      <div class="hint-block">数据和录音存在本设备浏览器；每台设备各导入一次即可。</div>
+      <div id="matList"></div>
+      <div class="hint-block">数据和录音存在本设备浏览器。<b>练之前先「导出备份」</b>，清浏览器数据不会丢。</div>
     </section>
     <section class="card" id="presetCard">
       <div class="card-head">
         <span class="card-title">内置素材</span>
-        <span class="card-sub">音频和文本都在站上——点导入 → 断句标记 → 开练</span>
+        <span class="card-sub">已切好句、标好停顿 —— 导入即练</span>
       </div>
       <div id="presetList"></div>
     </section>
@@ -189,18 +213,20 @@ footer a { color: var(--gold); text-decoration: none; }
     <section class="card">
       <div class="card-head"><span class="card-title">新建素材</span><button id="newBack">← 返回</button></div>
       <label class="lab" for="matName">素材名</label>
-      <input type="text" id="matName" placeholder="Catherine — Children's Mental Health Week (2017)">
+      <input type="text" id="matName" placeholder="J.K. Rowling — Harvard (2008)">
       <label class="lab">音频文件（mp3 / m4a / wav）</label>
       <label class="filebtn" for="audioFile" id="audioLabel">选择音频…</label>
       <input type="file" id="audioFile" accept="audio/*">
-      <label class="lab" for="txtPractice">练习版文本（可以带你的标注：**重音** 和 | 停顿）</label>
-      <textarea id="txtPractice" placeholder="粘贴 01 练习版全文，或先贴 00 原文之后再自标"></textarea>
-      <label class="lab" for="txtCheck">核对版文本（可选，练习时可一键切换对照）</label>
-      <textarea id="txtCheck" placeholder="粘贴 02 标准核对版全文（句数需与练习版一致）"></textarea>
+      <label class="lab" for="txtPractice">练习版文本 —— 可直接整篇粘贴 Obsidian 文件（标题、S 序号、说明行会自动剥掉）</label>
+      <textarea id="txtPractice" placeholder="粘贴 01 练习版全文"></textarea>
+      <label class="lab" for="txtCheck">核对版文本（可选，练习时可切换对照）</label>
+      <textarea id="txtCheck" placeholder="粘贴 02 标准核对版全文"></textarea>
       <div class="hint-block" id="splitPreview"></div>
-      <div class="markbar" style="margin-top:14px;">
-        <button class="primary" id="btnToMark">下一步：断句标记 →</button>
+      <div class="keys" style="margin-top:14px;">
+        <button class="primary" id="btnAuto">自动断句 →</button>
+        <button id="btnManual">我要手动断句</button>
       </div>
+      <div class="hint-block">自动断句：分析音频里的真实停顿自动切好，你只需抽查微调。</div>
     </section>
   </div>
 
@@ -208,20 +234,25 @@ footer a { color: var(--gold); text-decoration: none; }
   <div id="viewMark" hidden>
     <section class="card">
       <div class="card-head"><span class="card-title">断句标记</span><span class="card-sub">边听边按——每句结束的瞬间点一下</span></div>
-      <div class="deck" style="position:static; box-shadow:none; border-style:dashed; margin-top:4px;">
+      <div class="deck" style="border-style:dashed;">
         <button class="roundbtn" id="markPlay">▶</button>
         <button id="markBack3">−3s</button>
         <span class="t num" id="markTime">0:00</span>
         <input type="range" id="markSpeed" min="0.5" max="1" step="0.05" value="0.85">
         <span class="spd" id="markSpdLab">0.85x</span>
       </div>
-      <div class="mark-current"><span class="idx num" id="markIdx">S1</span><span id="markSent"></span></div>
-      <div class="mark-next" id="markNext"></div>
-      <div class="markbar">
-        <button class="primary" id="btnMark">这句到这里 ✓</button>
+      <div class="focus" style="min-height:auto;">
+        <div class="hd"><span class="sid" id="markIdx">S1</span><span class="cnt" id="markCnt"></span></div>
+        <div class="big" id="markSent"></div>
+      </div>
+      <div class="hint-block" id="markNext"></div>
+      <div class="keys">
+        <button class="primary" id="btnMark">这句到这里 ✓<span class="kb">空格</span></button>
         <button id="btnUnmark">撤销上一句</button>
+        <button id="markSave">存下进度，稍后再标</button>
         <button class="danger" id="markCancel">放弃</button>
       </div>
+      <div class="hint-block">已自动补偿反应延迟 0.18s。中途可以随时「存下进度」，下次接着标。</div>
     </section>
   </div>
 
@@ -232,19 +263,51 @@ footer a { color: var(--gold); text-decoration: none; }
         <span class="card-title" id="benchName"></span>
         <span>
           <button id="btnVersion">看核对版</button>
-          <button id="btnRemark">重新断句</button>
+          <button id="btnList">列表</button>
           <button id="benchBack">← 素材库</button>
         </span>
       </div>
-      <div class="deck">
-        <button class="roundbtn" id="benchPlay" title="整篇播放/暂停">▶</button>
-        <span class="t num" id="benchTime">0:00</span>
-        <input type="range" id="benchSpeed" min="0.5" max="1" step="0.05" value="1">
-        <span class="spd" id="benchSpdLab">1x</span>
+
+      <div id="focusPane">
+        <div class="focus" id="focusBox">
+          <div class="hd"><span class="sid num" id="fSid">S1</span><span class="cnt" id="fCnt"></span></div>
+          <div class="big" id="fText"></div>
+        </div>
+        <div class="deck">
+          <button class="roundbtn" id="fLoop" title="循环本句">▶</button>
+          <span class="t num" id="fDur"></span>
+          <input type="range" id="benchSpeed" min="0.5" max="1.25" step="0.05" value="1">
+          <span class="spd" id="benchSpdLab">1x</span>
+          <button id="fNudgeL" title="本句起点提前 0.1s">◂微调</button>
+          <button id="fNudgeR" title="本句终点延后 0.1s">微调▸</button>
+        </div>
+        <div class="keys">
+          <button id="fRec">● 录<span class="kb">R</span></button>
+          <button id="fMine" disabled>▶ 听我的<span class="kb">M</span></button>
+          <button id="fAB" disabled>A/B 对比<span class="kb">A</span></button>
+          <button id="fPass">过关<span class="kb">↵</span></button>
+          <button id="fPrev">← 上一句</button>
+          <button id="fNext">下一句 →</button>
+        </div>
+        <div class="hint-block">空格 = 循环本句 · R = 录（再按停，<b>停了自动放你的录音</b>） · ↑↓ 切句 · ↵ 过关</div>
+
+        <details class="drawer" id="drawer">
+          <summary>复盘 —— 节奏、音高、录音历史</summary>
+          <div class="body" id="drawerBody"></div>
+        </details>
       </div>
-      <div id="sentList" style="margin-top:14px;"></div>
+
+      <div id="listPane" hidden>
+        <div id="sentList"></div>
+      </div>
+
       <div class="progressline" id="benchProgress"></div>
-      <div class="hint-block">循环 = 单句反复放，跟着影子说 · 录 = 点一下开始、再点结束 · A/B = 先放原声这句、再放你的录音 · 练完整篇去「今日一砖」点亮英语墨点。</div>
+      <div class="bar"><i id="benchBar" style="width:0%"></i></div>
+      <div class="keys" style="margin-top:14px;">
+        <button id="btnWhole">整篇通录</button>
+        <button id="btnExport">导出备份</button>
+        <button id="btnRemark">重新断句</button>
+      </div>
     </section>
   </div>
 
@@ -255,6 +318,7 @@ footer a { color: var(--gold); text-decoration: none; }
 </div>
 
 <div class="toast" id="toast"></div>
+<input type="file" id="importFile" accept="application/json" style="display:none">
 
 <script>
 (function () {
@@ -266,22 +330,43 @@ footer a { color: var(--gold); text-decoration: none; }
   function fmtT(s) { s = Math.max(0, s || 0); return Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0'); }
   function toast(msg) {
     var t = $('toast'); t.textContent = msg; t.classList.add('show');
-    clearTimeout(t._h); t._h = setTimeout(function () { t.classList.remove('show'); }, 2400);
+    clearTimeout(t._h); t._h = setTimeout(function () { t.classList.remove('show'); }, 2600);
   }
   function renderMarks(s) {
     var h = esc(s);
     h = h.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
-    h = h.replace(/\|\|/g, '<span class="pb">‖</span>').replace(/\|/g, '<span class="pb">│</span>');
+    h = h.replace(/\|\|/g, '<span class="pb">‖</span>').replace(/(^|\s)\|(\s|$)/g, '$1<span class="pb">│</span>$2');
     return h;
   }
+
+  /* 文本清洗：剥掉 markdown 标题、S 序号、说明行、💡 提示 */
   function splitSentences(text) {
     var out = [];
     text.split(/\n+/).forEach(function (line) {
       line = line.trim();
       if (!line) return;
-      line = line.replace(/^S?\d+[.、·]\s*/, '');
-      var m = line.match(/[^.!?…]+[.!?…]+["'”’]?\s*|[^.!?…]+$/g) || [line];
-      m.forEach(function (x) { x = x.trim(); if (x) out.push(x); });
+      if (/^#{1,6}\s/.test(line)) return;              // markdown 标题
+      if (/^[-*+]\s/.test(line)) return;               // 列表项（说明/符号表）
+      if (/^>/.test(line)) return;                     // 引用块
+      if (/^(-{3,}|={3,}|\|)/.test(line)) return;      // 分隔线 / 表格
+      if (/^💡/.test(line)) return;                    // 跟读要点
+      if (/^S\d+\s*[–-]\s*S\d+/.test(line)) return;    // "S1–S29 与核对版对应"
+      line = line.replace(/^S?\d+\s*[.、·]?\s+/, '');  // 剥 "S1 " / "1. " / "12、"
+      line = line.trim();
+      if (!line) return;
+      if (!/[a-zA-Z]/.test(line)) return;              // 纯中文说明行
+      // 断句前先保护"不是句号的点"：小数 15.5、缩写 Mr./Dr.、首字母缩写 U.N.
+      var DOT = '';
+      var safe = line
+        .replace(/(\d)\.(\d)/g, '$1' + DOT + '$2')
+        .replace(/\b([ap])\.m\b/gi, function (s) { return s[0] + DOT + s[2]; })
+        .replace(/\b(Mr|Mrs|Ms|Dr|St|Prof|Sr|Jr|vs|etc|e\.g|i\.e)\./gi, function (s) { return s.slice(0, -1) + DOT; })
+        .replace(/\b([A-Z])\.(?=[A-Z]\.)/g, '$1' + DOT);
+      var m = safe.match(/[^.!?…]+[.!?…]+["'”’]*|[^.!?…]+$/g) || [safe];
+      m.forEach(function (x) {
+        x = x.split(DOT).join('.').trim();
+        if (x && /[a-zA-Z]/.test(x)) out.push(x);
+      });
     });
     return out;
   }
@@ -291,70 +376,86 @@ footer a { color: var(--gold); text-decoration: none; }
   function idb() {
     return new Promise(function (res, rej) {
       if (db) return res(db);
-      var rq = indexedDB.open('shadowbench', 1);
-      rq.onupgradeneeded = function () { rq.result.createObjectStore('materials', { keyPath: 'id' }); };
+      var rq = indexedDB.open('shadowbench', 2);
+      rq.onupgradeneeded = function (e) {
+        var d = rq.result;
+        if (!d.objectStoreNames.contains('materials')) d.createObjectStore('materials', { keyPath: 'id' });
+      };
       rq.onsuccess = function () { db = rq.result; res(db); };
       rq.onerror = function () { rej(rq.error); };
     });
   }
+  function tx(mode) { return idb().then(function (d) { return d.transaction('materials', mode).objectStore('materials'); }); }
   function idbAll() {
-    return idb().then(function (d) {
+    return tx('readonly').then(function (st) {
       return new Promise(function (res, rej) {
-        var rq = d.transaction('materials').objectStore('materials').getAll();
-        rq.onsuccess = function () { res(rq.result || []); };
-        rq.onerror = function () { rej(rq.error); };
+        var rq = st.getAll(); rq.onsuccess = function () { res(rq.result || []); }; rq.onerror = function () { rej(rq.error); };
       });
     });
   }
   function idbPut(m) {
-    return idb().then(function (d) {
+    return tx('readwrite').then(function (st) {
       return new Promise(function (res, rej) {
-        var rq = d.transaction('materials', 'readwrite').objectStore('materials').put(m);
-        rq.onsuccess = function () { res(); };
-        rq.onerror = function () { rej(rq.error); };
+        var rq = st.put(m); rq.onsuccess = function () { res(); }; rq.onerror = function () { rej(rq.error); };
       });
     });
   }
   function idbDel(id) {
-    return idb().then(function (d) {
+    return tx('readwrite').then(function (st) {
       return new Promise(function (res, rej) {
-        var rq = d.transaction('materials', 'readwrite').objectStore('materials').delete(id);
-        rq.onsuccess = function () { res(); };
-        rq.onerror = function () { rej(rq.error); };
+        var rq = st.delete(id); rq.onsuccess = function () { res(); }; rq.onerror = function () { rej(rq.error); };
       });
     });
   }
 
   /* ---------- 状态 ---------- */
   var audio = new Audio();
-  try { audio.preservesPitch = true; } catch (e) {}
-  var cur = null;          // 当前素材对象
-  var curUrl = null;       // 音频 objectURL
-  var loopIdx = -1;        // 循环中的句 index
-  var abIdx = -1;          // A/B 播放中的句
-  var abAudio = null;      // 录音回放 Audio
-  var recorder = null, recChunks = [], recIdx = -1, micStream = null;
-  var newDraft = null;     // 新建向导暂存 {name, blob, type, practice[], check[]}
-  var markIdxN = 0;
+  try { audio.preservesPitch = true; audio.mozPreservesPitch = true; audio.webkitPreservesPitch = true; } catch (e) {}
+  var cur = null, curUrl = null;
+  var idx = 0;                 // 当前句
+  var looping = false;
+  var mode = null;             // null | 'ab'
+  var mineAudio = null, mineUrl = null;
+  var recorder = null, recChunks = [], recing = false, micStream = null, recStart = 0;
+  var wholeRec = false;
+  var newDraft = null, markN = 0, markSegs = [];
+  var showCheck = false, listView = false;
+  var actx = null;
+  function AC() { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); return actx; }
+  /* play() 返回的 Promise 在被 pause() 打断时会 reject（AbortError），必须吞掉 */
+  function play(el) { var p = el.play(); if (p && p.catch) p.catch(function () {}); return p; }
 
-  function show(view) {
-    ['viewLib', 'viewNew', 'viewMark', 'viewBench'].forEach(function (v) { $(v).hidden = (v !== view); });
+  var REACTION = 0.18;  // 手动断句的反应延迟补偿
+
+  function show(v) {
+    ['viewLib', 'viewNew', 'viewMark', 'viewBench'].forEach(function (x) { $(x).hidden = (x !== v); });
     stopAll();
   }
   function stopAll() {
-    audio.pause(); loopIdx = -1; abIdx = -1;
-    if (abAudio) { abAudio.pause(); abAudio = null; }
-    if (recorder && recorder.state === 'recording') recorder.stop();
+    audio.pause(); looping = false; mode = null;
+    if (mineAudio) { mineAudio.pause(); mineAudio = null; }
+    if (recorder && recorder.state === 'recording') { try { recorder.stop(); } catch (e) {} }
+    releaseMic();
+  }
+  function releaseMic() {
+    if (micStream) { micStream.getTracks().forEach(function (t) { t.stop(); }); micStream = null; }
   }
   function setAudioSrc(blob) {
     if (curUrl) URL.revokeObjectURL(curUrl);
     curUrl = URL.createObjectURL(blob);
     audio.src = curUrl;
   }
-  function segRange(i) {
-    var start = i === 0 ? 0 : cur.ends[i - 1];
-    return [start, cur.ends[i]];
+  /* 兼容旧数据：ends[] → segs[[s,e]] */
+  function normalize(m) {
+    if (!m.segs && m.ends && m.ends.length) {
+      m.segs = m.ends.map(function (e, i) { return [i === 0 ? 0 : m.ends[i - 1], e]; });
+    }
+    if (!m.recs) m.recs = {};
+    if (!m.done) m.done = (m.practice || []).map(function () { return false; });
+    return m;
   }
+  function seg(i) { return cur.segs[i]; }
+  function texts() { return (showCheck && cur.check) ? cur.check : cur.practice; }
 
   /* ---------- 视图 1：素材库 ---------- */
   function renderLib() {
@@ -362,17 +463,21 @@ footer a { color: var(--gold); text-decoration: none; }
       var list = $('matList');
       list.innerHTML = '';
       if (!mats.length) {
-        list.innerHTML = '<div class="empty-note">还没有素材。点「新建素材」导入音频和文本。</div>';
+        list.innerHTML = '<div class="empty-note">还没有素材。从下面「内置素材」一键导入，或「新建素材」自己传。</div>';
         return;
       }
       mats.sort(function (a, b) { return b.id - a.id; });
       mats.forEach(function (m) {
+        normalize(m);
         var row = document.createElement('div');
         row.className = 'mat';
         var passed = (m.done || []).filter(Boolean).length;
-        row.innerHTML = '<div class="info"><div class="name">' + esc(m.name) + '</div>' +
+        var nrec = Object.keys(m.recs || {}).length;
+        var ready = m.segs && m.segs.length === m.practice.length;
+        row.innerHTML = '<div class="info"><div class="name">' + esc(m.name) +
+          (ready ? '' : '<span class="badge" style="color:var(--cinnabar);border-color:var(--cinnabar)">待断句</span>') + '</div>' +
           '<div class="meta"><b>' + passed + '</b> / ' + m.practice.length + ' 句过关' +
-          (m.ends ? '' : ' · 未断句') + '</div></div>' +
+          (nrec ? ' · <b>' + nrec + '</b> 句有录音' : '') + '</div></div>' +
           '<button class="danger del">删除</button>';
         row.querySelector('.info').addEventListener('click', function () { openMat(m); });
         row.querySelector('.del').addEventListener('click', function () {
@@ -384,18 +489,18 @@ footer a { color: var(--gold); text-decoration: none; }
     });
   }
   function openMat(m) {
-    cur = m;
+    cur = normalize(m);
     setAudioSrc(m.audio);
-    if (m.ends && m.ends.length === m.practice.length) { show('viewBench'); renderBench(); }
-    else startMark();
+    idx = 0; showCheck = false; listView = false;
+    if (cur.segs && cur.segs.length === cur.practice.length) { show('viewBench'); renderBench(); }
+    else { markSegs = cur.segs || []; markN = markSegs.length; startMark(); }
   }
 
   /* ---------- 视图 2：新建向导 ---------- */
   $('btnNew').addEventListener('click', function () {
     newDraft = { blob: null };
     $('matName').value = ''; $('txtPractice').value = ''; $('txtCheck').value = '';
-    $('audioLabel').textContent = '选择音频…';
-    $('splitPreview').textContent = '';
+    $('audioLabel').textContent = '选择音频…'; $('splitPreview').textContent = '';
     show('viewNew');
   });
   $('newBack').addEventListener('click', function () { show('viewLib'); renderLib(); });
@@ -407,225 +512,1462 @@ footer a { color: var(--gold); text-decoration: none; }
   });
   ['txtPractice', 'txtCheck'].forEach(function (id) {
     $(id).addEventListener('input', function () {
-      var p = splitSentences($('txtPractice').value);
-      var c = splitSentences($('txtCheck').value);
+      var p = splitSentences($('txtPractice').value), c = splitSentences($('txtCheck').value);
       $('splitPreview').textContent = p.length
-        ? ('自动切分：练习版 ' + p.length + ' 句' + (c.length ? ('，核对版 ' + c.length + ' 句' + (c.length !== p.length ? '（⚠️ 句数不一致，将按练习版为准）' : ' ✓')) : ''))
+        ? ('自动切分：练习版 ' + p.length + ' 句' + (c.length ? ('，核对版 ' + c.length + ' 句' + (c.length !== p.length ? '（⚠️ 句数不一致，核对版将忽略）' : ' ✓')) : ''))
         : '';
     });
   });
-  $('btnToMark').addEventListener('click', function () {
+  function draftToCur() {
     var name = $('matName').value.trim();
-    var p = splitSentences($('txtPractice').value);
-    var c = splitSentences($('txtCheck').value);
-    if (!name) return toast('先给素材起个名。');
-    if (!newDraft.blob) return toast('还没选音频文件。');
-    if (!p.length) return toast('练习版文本是空的。');
-    cur = {
+    var p = splitSentences($('txtPractice').value), c = splitSentences($('txtCheck').value);
+    if (!name) { toast('先给素材起个名。'); return null; }
+    if (!newDraft.blob) { toast('还没选音频文件。'); return null; }
+    if (!p.length) { toast('练习版文本是空的。'); return null; }
+    return {
       id: Date.now(), name: name, audio: newDraft.blob, audioType: newDraft.type,
       practice: p, check: (c.length === p.length ? c : null),
-      ends: null, done: p.map(function () { return false; }), recs: {}
+      segs: null, done: p.map(function () { return false; }), recs: {}
     };
-    setAudioSrc(cur.audio);
-    startMark();
+  }
+  $('btnManual').addEventListener('click', function () {
+    var m = draftToCur(); if (!m) return;
+    cur = m; setAudioSrc(cur.audio); markSegs = []; markN = 0; startMark();
+  });
+  $('btnAuto').addEventListener('click', function () {
+    var m = draftToCur(); if (!m) return;
+    cur = m; setAudioSrc(cur.audio);
+    toast('正在分析音频里的真实停顿…');
+    autoSegment(cur.audio, cur.practice.length).then(function (segs) {
+      cur.segs = segs;
+      idbPut(cur).then(function () {
+        toast('自动切好 ' + segs.length + ' 句。练的时候发现哪句边界歪了，用「微调」拨一下。');
+        idx = 0; show('viewBench'); renderBench();
+      });
+    }).catch(function (e) {
+      toast('自动断句失败，改用手动。');
+      markSegs = []; markN = 0; startMark();
+    });
   });
 
-  /* ---------- 视图 3：断句标记 ---------- */
+  /* 浏览器内自动断句：解码 → 能量包络 → 找静音 → 按目标句数切 */
+  function autoSegment(blob, want) {
+    return blob.arrayBuffer().then(function (buf) { return AC().decodeAudioData(buf); }).then(function (ab) {
+      var ch = ab.getChannelData(0), sr = ab.sampleRate;
+      var win = Math.floor(sr * 0.02), n = Math.floor(ch.length / win);
+      var rms = new Float32Array(n);
+      for (var i = 0; i < n; i++) {
+        var s = 0;
+        for (var j = 0; j < win; j++) { var v = ch[i * win + j]; s += v * v; }
+        rms[i] = Math.sqrt(s / win);
+      }
+      var sorted = Float32Array.from(rms).sort();
+      var noise = sorted[Math.floor(n * 0.15)] || 1e-5;
+      var peak = sorted[Math.floor(n * 0.97)] || 1e-3;
+      var th = Math.max(noise * 2.2, peak * 0.045);
+      // 找出所有静音段（>=0.18s）
+      var gaps = [], st = -1;
+      for (var k = 0; k < n; k++) {
+        if (rms[k] < th) { if (st < 0) st = k; }
+        else { if (st >= 0 && (k - st) * 0.02 >= 0.18) gaps.push([st * 0.02, k * 0.02]); st = -1; }
+      }
+      if (st >= 0) gaps.push([st * 0.02, n * 0.02]);
+      if (!gaps.length) throw new Error('no gaps');
+      // 取最长的 want-1 个静音作为切点
+      var picked = gaps.slice().sort(function (a, b) { return (b[1] - b[0]) - (a[1] - a[0]); })
+                       .slice(0, Math.max(0, want - 1))
+                       .sort(function (a, b) { return a[0] - b[0]; });
+      var segs = [], start = gaps.length && gaps[0][0] < 0.6 ? gaps[0][1] - 0.08 : 0;
+      picked.forEach(function (g) {
+        segs.push([Math.max(0, +start.toFixed(3)), +(g[0] + 0.18).toFixed(3)]);
+        start = g[1] - 0.08;
+      });
+      segs.push([Math.max(0, +start.toFixed(3)), +(ab.duration).toFixed(3)]);
+      // 数量兜底
+      while (segs.length > want) { var last = segs.pop(); segs[segs.length - 1][1] = last[1]; }
+      while (segs.length < want) {
+        var wi = 0, wd = 0;
+        segs.forEach(function (s, i) { if (s[1] - s[0] > wd) { wd = s[1] - s[0]; wi = i; } });
+        var mid = +((segs[wi][0] + segs[wi][1]) / 2).toFixed(3);
+        segs.splice(wi + 1, 0, [mid, segs[wi][1]]); segs[wi][1] = mid;
+      }
+      return segs;
+    });
+  }
+
+  /* ---------- 视图 3：手动断句（可续标） ---------- */
   function startMark() {
-    markIdxN = 0;
-    cur.ends = [];
     audio.playbackRate = parseFloat($('markSpeed').value);
-    show('viewMark');
-    renderMark();
+    show('viewMark'); renderMark();
   }
   function renderMark() {
     var n = cur.practice.length;
-    if (markIdxN >= n) return finishMark();
-    $('markIdx').textContent = 'S' + (markIdxN + 1);
-    $('markSent').innerHTML = renderMarks(cur.practice[markIdxN]);
-    $('markNext').textContent = markIdxN + 1 < n ? ('下一句：' + cur.practice[markIdxN + 1].slice(0, 46) + '…') : '这是最后一句。';
-    $('btnUnmark').disabled = markIdxN === 0;
+    if (markN >= n) return finishMark();
+    $('markIdx').textContent = 'S' + (markN + 1);
+    $('markCnt').textContent = (markN + 1) + ' / ' + n;
+    $('markSent').innerHTML = renderMarks(cur.practice[markN]);
+    $('markNext').textContent = markN + 1 < n ? ('下一句：' + cur.practice[markN + 1].slice(0, 52) + '…') : '这是最后一句。';
+    $('btnUnmark').disabled = markN === 0;
+    if (markN > 0) audio.currentTime = markSegs[markN - 1][1];
   }
   function finishMark() {
     audio.pause();
-    idbPut(cur).then(function () {
-      toast('断句完成，开练。');
-      show('viewBench'); renderBench();
-    });
+    cur.segs = markSegs.slice();
+    idbPut(cur).then(function () { toast('断句完成，开练。'); idx = 0; show('viewBench'); renderBench(); });
   }
   $('markPlay').addEventListener('click', function () {
-    if (audio.paused) { audio.play(); $('markPlay').textContent = '❚❚'; $('markPlay').classList.add('play'); }
+    if (audio.paused) { play(audio); $('markPlay').textContent = '❚❚'; $('markPlay').classList.add('play'); }
     else { audio.pause(); $('markPlay').textContent = '▶'; $('markPlay').classList.remove('play'); }
   });
   $('markBack3').addEventListener('click', function () { audio.currentTime = Math.max(0, audio.currentTime - 3); });
   $('markSpeed').addEventListener('input', function () {
-    audio.playbackRate = parseFloat(this.value);
-    $('markSpdLab').textContent = this.value + 'x';
+    audio.playbackRate = parseFloat(this.value); $('markSpdLab').textContent = this.value + 'x';
   });
-  $('btnMark').addEventListener('click', function () {
-    var t = audio.currentTime;
-    var last = cur.ends.length ? cur.ends[cur.ends.length - 1] : 0;
-    if (t <= last + 0.15) return toast('时间点要在上一句之后——先让音频往前走。');
-    cur.ends.push(t);
-    markIdxN++;
+  function doMark() {
+    var t = Math.max(0, audio.currentTime - REACTION);
+    var last = markN ? markSegs[markN - 1][1] : 0;
+    if (t <= last + 0.2) return toast('时间点要在上一句之后——先让音频往前走。');
+    markSegs[markN] = [last, +t.toFixed(3)];
+    markN++;
     renderMark();
-  });
+  }
+  $('btnMark').addEventListener('click', doMark);
   $('btnUnmark').addEventListener('click', function () {
-    if (!cur.ends.length) return;
-    cur.ends.pop(); markIdxN--;
-    audio.currentTime = cur.ends.length ? cur.ends[cur.ends.length - 1] : 0;
+    if (!markN) return;
+    markN--; markSegs.pop();
+    audio.currentTime = markN ? markSegs[markN - 1][1] : 0;
     renderMark();
+  });
+  $('markSave').addEventListener('click', function () {
+    cur.segs = markSegs.length ? markSegs.slice() : null;
+    idbPut(cur).then(function () { toast('已存下 ' + markN + ' 句，下次接着标。'); show('viewLib'); renderLib(); });
   });
   $('markCancel').addEventListener('click', function () {
-    if (!confirm('放弃断句？')) return;
-    cur.ends = null;
-    idbPut(cur).then(function () { show('viewLib'); renderLib(); });
+    if (!confirm('放弃这次断句？已存下的进度会保留。')) return;
+    show('viewLib'); renderLib();
   });
 
   /* ---------- 视图 4：跟读台 ---------- */
-  var showCheck = false;
   function renderBench() {
     $('benchName').textContent = cur.name;
     $('btnVersion').style.display = cur.check ? '' : 'none';
     $('btnVersion').textContent = showCheck ? '看练习版' : '看核对版';
+    $('btnList').textContent = listView ? '专注' : '列表';
+    $('focusPane').hidden = listView; $('listPane').hidden = !listView;
     audio.playbackRate = parseFloat($('benchSpeed').value);
-    var list = $('sentList');
+    var T = texts(), n = T.length;
+    if (idx >= n) idx = n - 1; if (idx < 0) idx = 0;
+
+    $('fSid').textContent = 'S' + (idx + 1);
+    $('fCnt').textContent = (idx + 1) + ' / ' + n + (cur.done[idx] ? ' · 已过关' : '');
+    $('fText').innerHTML = renderMarks(T[idx]);
+    var s = seg(idx);
+    $('fDur').textContent = (s[1] - s[0]).toFixed(1) + 's';
+    $('fLoop').textContent = looping ? '❚❚' : '▶';
+    $('fLoop').classList.toggle('play', looping);
+    $('fRec').className = recing ? 'recing' : '';
+    $('fRec').innerHTML = recing ? '■ 停录<span class="kb">R</span>' : '● 录<span class="kb">R</span>';
+    $('focusBox').classList.toggle('rec-on', recing);
+    var has = !!(cur.recs[idx] && cur.recs[idx].length);
+    $('fMine').disabled = !has; $('fAB').disabled = !has;
+    $('fPass').className = cur.done[idx] ? 'ok' : '';
+    $('fPass').innerHTML = (cur.done[idx] ? '✓ 已过关' : '过关') + '<span class="kb">↵</span>';
+    $('fPrev').disabled = idx === 0; $('fNext').disabled = idx === n - 1;
+
+    if (listView) renderList();
+    var passed = cur.done.filter(Boolean).length;
+    $('benchProgress').innerHTML = '过关 <b>' + passed + '</b> / ' + n + ' 句' +
+      (passed === n ? ' —— 整篇拿下，去打卡点亮墨点 🖤' : '');
+    $('benchBar').style.width = (passed / n * 100) + '%';
+    if ($('drawer').open) renderDrawer();
+  }
+  function renderList() {
+    var T = texts(), list = $('sentList');
     list.innerHTML = '';
-    var texts = (showCheck && cur.check) ? cur.check : cur.practice;
-    texts.forEach(function (s, i) {
+    T.forEach(function (s, i) {
       var row = document.createElement('div');
-      row.className = 'sent' + (cur.done[i] ? ' passed' : '') + (i === loopIdx ? ' active' : '');
-      row.innerHTML =
-        '<div class="top"><span class="no num">S' + (i + 1) + '</span>' +
-        '<span class="txt">' + renderMarks(s) + '</span></div>' +
-        '<div class="ctrl">' +
-        '<button class="loop' + (i === loopIdx ? ' on' : '') + '">' + (i === loopIdx ? '■ 停' : '循环') + '</button>' +
-        '<button class="rec' + (i === recIdx ? ' recing' : '') + '">' + (i === recIdx ? '■ 停录' : '录') + '</button>' +
-        '<button class="ab"' + (cur.recs[i] ? '' : ' disabled') + '>A/B</button>' +
-        (cur.recs[i] ? '<span class="hasrec">已有录音</span>' : '') +
-        '<button class="pass' + (cur.done[i] ? ' ok' : '') + '">' + (cur.done[i] ? '✓ 过关' : '过关') + '</button>' +
-        '</div>';
-      row.querySelector('.loop').addEventListener('click', function () { toggleLoop(i); });
-      row.querySelector('.rec').addEventListener('click', function () { toggleRec(i); });
-      row.querySelector('.ab').addEventListener('click', function () { playAB(i); });
-      row.querySelector('.pass').addEventListener('click', function () {
-        cur.done[i] = !cur.done[i];
-        idbPut(cur).then(renderBench);
-      });
+      row.className = 'sent' + (cur.done[i] ? ' passed' : '') + (i === idx ? ' cur' : '');
+      row.innerHTML = '<span class="no num">S' + (i + 1) + '</span><span class="txt">' + renderMarks(s) + '</span>' +
+        '<span class="tag">' + (cur.recs[i] && cur.recs[i].length ? '●' : '') + (cur.done[i] ? ' ✓' : '') + '</span>';
+      row.addEventListener('click', function () { idx = i; listView = false; renderBench(); });
       list.appendChild(row);
     });
-    var passed = cur.done.filter(Boolean).length;
-    $('benchProgress').innerHTML = '过关 <b>' + passed + '</b> / ' + texts.length + ' 句' +
-      (passed === texts.length ? ' —— 整篇拿下，去打卡点亮墨点 🖤' : '');
   }
   $('btnVersion').addEventListener('click', function () { showCheck = !showCheck; renderBench(); });
-  $('btnRemark').addEventListener('click', function () {
-    if (!confirm('重新断句会清掉现有时间点（录音和过关保留）。继续？')) return;
-    startMark();
-  });
-  $('benchBack').addEventListener('click', function () { show('viewLib'); renderLib(); });
+  $('btnList').addEventListener('click', function () { listView = !listView; renderBench(); });
+  $('benchBack').addEventListener('click', function () { stopAll(); show('viewLib'); renderLib(); });
   $('benchSpeed').addEventListener('input', function () {
-    audio.playbackRate = parseFloat(this.value);
-    $('benchSpdLab').textContent = this.value + 'x';
+    audio.playbackRate = parseFloat(this.value); $('benchSpdLab').textContent = this.value + 'x';
   });
-  $('benchPlay').addEventListener('click', function () {
-    loopIdx = -1;
-    if (audio.paused) audio.play(); else audio.pause();
-  });
-  audio.addEventListener('play', function () { $('benchPlay').textContent = '❚❚'; $('benchPlay').classList.add('play'); });
-  audio.addEventListener('pause', function () { $('benchPlay').textContent = '▶'; $('benchPlay').classList.remove('play'); });
-  audio.addEventListener('timeupdate', function () {
-    $('benchTime').textContent = fmtT(audio.currentTime);
-    $('markTime').textContent = fmtT(audio.currentTime);
-    if (loopIdx >= 0 && cur && cur.ends) {
-      var r = segRange(loopIdx);
-      if (audio.currentTime >= r[1] - 0.03) audio.currentTime = r[0];
-    }
-    if (abIdx >= 0 && cur && cur.ends) {
-      var r2 = segRange(abIdx);
-      if (audio.currentTime >= r2[1] - 0.03) {
-        audio.pause(); var i = abIdx; abIdx = -1;
-        playRec(i);
-      }
-    }
-  });
+  $('fPrev').addEventListener('click', function () { go(-1); });
+  $('fNext').addEventListener('click', function () { go(1); });
+  function go(d) { stopSound(); idx = Math.max(0, Math.min(texts().length - 1, idx + d)); renderBench(); }
+  function stopSound() { audio.pause(); looping = false; mode = null; if (mineAudio) { mineAudio.pause(); mineAudio = null; } }
 
-  function toggleLoop(i) {
-    if (loopIdx === i) { loopIdx = -1; audio.pause(); }
-    else {
-      abIdx = -1;
-      loopIdx = i;
-      var r = segRange(i);
-      audio.currentTime = r[0];
-      audio.play();
-    }
+  function toggleLoop() {
+    if (looping) { stopSound(); }
+    else { mode = null; looping = true; var s = seg(idx); audio.currentTime = s[0]; play(audio); }
     renderBench();
   }
+  $('fLoop').addEventListener('click', toggleLoop);
+  audio.addEventListener('timeupdate', function () {
+    if (!cur || !cur.segs) return;
+    var s = seg(idx); if (!s) return;
+    if (looping && audio.currentTime >= s[1] - 0.02) audio.currentTime = s[0];
+    if (mode === 'ab' && audio.currentTime >= s[1] - 0.02) { audio.pause(); mode = null; playMine(); }
+  });
 
-  /* 录音 */
-  function toggleRec(i) {
-    if (recIdx === i) { recorder.stop(); return; }
-    if (recorder && recorder.state === 'recording') recorder.stop();
-    var start = function (stream) {
-      micStream = stream;
-      recChunks = [];
+  /* 微调边界 */
+  $('fNudgeL').addEventListener('click', function () { nudge(0, -0.1); });
+  $('fNudgeR').addEventListener('click', function () { nudge(1, 0.1); });
+  function nudge(which, d) {
+    var s = seg(idx);
+    s[which] = +Math.max(0, s[which] + d).toFixed(3);
+    if (s[1] - s[0] < 0.4) s[1] = s[0] + 0.4;
+    if (which === 0 && idx > 0) cur.segs[idx - 1][1] = Math.min(cur.segs[idx - 1][1], s[0]);
+    if (which === 1 && idx < cur.segs.length - 1) cur.segs[idx + 1][0] = Math.max(cur.segs[idx + 1][0], s[1]);
+    idbPut(cur).then(function () { renderBench(); toast('S' + (idx + 1) + ' 边界 ' + (d > 0 ? '延后' : '提前') + ' 0.1s'); });
+  }
+
+  /* ---------- 录音 ---------- */
+  function toggleRec() {
+    if (recing) { try { recorder.stop(); } catch (e) {} return; }
+    stopSound();
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+      micStream = stream; recChunks = [];
       try { recorder = new MediaRecorder(stream); }
-      catch (e) { toast('这个浏览器不支持录音。'); return; }
-      recIdx = i;
+      catch (e) { toast('这个浏览器不支持录音。'); releaseMic(); return; }
+      recing = true; recStart = Date.now();
       recorder.ondataavailable = function (e) { if (e.data.size) recChunks.push(e.data); };
       recorder.onstop = function () {
+        var dur = (Date.now() - recStart) / 1000;
         var blob = new Blob(recChunks, { type: recorder.mimeType || 'audio/webm' });
-        var idx = recIdx; recIdx = -1;
-        cur.recs[idx] = blob;
-        idbPut(cur).then(function () { renderBench(); toast('录好了。点 A/B 对比原声。'); });
+        recing = false; releaseMic();
+        var rec = { blob: blob, dur: +dur.toFixed(2), at: Date.now() };
+        if (wholeRec) {
+          cur.whole = rec; wholeRec = false;
+          idbPut(cur).then(function () { renderBench(); toast('整篇录好了。'); playBlob(blob); });
+          return;
+        }
+        if (!cur.recs[idx]) cur.recs[idx] = [];
+        cur.recs[idx].push(rec);
+        if (cur.recs[idx].length > 8) cur.recs[idx].shift();
+        idbPut(cur).then(function () {
+          renderBench();
+          playMine();                       // ← 停录后自动放你的录音
+        });
       };
       recorder.start();
-      audio.pause(); loopIdx = -1;
       renderBench();
-    };
-    if (micStream && micStream.active) start(micStream);
-    else navigator.mediaDevices.getUserMedia({ audio: true }).then(start)
-      .catch(function () { toast('需要麦克风权限才能录音。'); });
+    }).catch(function () { toast('需要麦克风权限才能录音。'); });
   }
-  function playRec(i) {
-    if (!cur.recs[i]) return;
-    if (abAudio) abAudio.pause();
-    abAudio = new Audio(URL.createObjectURL(cur.recs[i]));
-    abAudio.play();
+  $('fRec').addEventListener('click', function () { wholeRec = false; toggleRec(); });
+  $('btnWhole').addEventListener('click', function () {
+    if (recing) { try { recorder.stop(); } catch (e) {} return; }
+    wholeRec = true; toggleRec();
+    toast('整篇通录中——放原声跟读，再点一次停。');
+    audio.currentTime = cur.segs[0][0]; play(audio);
+  });
+
+  function playBlob(blob) {
+    if (mineAudio) mineAudio.pause();
+    if (mineUrl) URL.revokeObjectURL(mineUrl);
+    mineUrl = URL.createObjectURL(blob);
+    mineAudio = new Audio(mineUrl);
+    play(mineAudio);
+    return mineAudio;
   }
-  function playAB(i) {
-    if (!cur.recs[i]) return;
-    loopIdx = -1; abIdx = i;
-    var r = segRange(i);
-    audio.currentTime = r[0];
-    audio.play();
-    renderBench();
+  function latest(i) { var a = cur.recs[i]; return a && a.length ? a[a.length - 1] : null; }
+  function playMine() {
+    var r = latest(idx); if (!r) return;
+    stopSound(); playBlob(r.blob);
+    toast('这是你的声音。');
+  }
+  $('fMine').addEventListener('click', playMine);
+  $('fAB').addEventListener('click', function () {
+    if (!latest(idx)) return;
+    stopSound(); mode = 'ab'; looping = false;
+    var s = seg(idx); audio.currentTime = s[0]; play(audio);
+    toast('先原声，再你的。');
+  });
+  $('fPass').addEventListener('click', function () {
+    cur.done[idx] = !cur.done[idx];
+    idbPut(cur).then(function () {
+      renderBench();
+      if (cur.done[idx] && idx < texts().length - 1) setTimeout(function () { go(1); }, 260);
+    });
+  });
+
+  /* ---------- 复盘抽屉 ---------- */
+  $('drawer').addEventListener('toggle', function () { if ($('drawer').open) renderDrawer(); });
+  function renderDrawer() {
+    var body = $('drawerBody');
+    var r = latest(idx);
+    if (!r) { body.innerHTML = '<div class="empty-note">这句还没录音。按 R 录一条，这里会出现节奏和音高对比。</div>'; return; }
+    var s = seg(idx), want = s[1] - s[0], got = r.dur;
+    var diff = got - want, pct = Math.abs(diff) / want;
+    var cls = pct < 0.12 ? 'good' : (pct < 0.28 ? '' : 'warn');
+    var verdict = pct < 0.12 ? '节奏很贴' : (diff > 0 ? '你说得偏慢' : '你说得偏快');
+    body.innerHTML =
+      '<div class="metric"><span class="k">原句时长</span><span class="v num">' + want.toFixed(2) + 's</span></div>' +
+      '<div class="metric"><span class="k">你的时长</span><span class="v num ' + cls + '">' + got.toFixed(2) + 's</span>' +
+        '<span class="' + cls + '">（' + (diff > 0 ? '+' : '') + diff.toFixed(2) + 's，' + verdict + '）</span></div>' +
+      '<div class="metric"><span class="k">音高对比</span><span class="v" id="pitchV">测量中…</span></div>' +
+      '<div style="margin-top:10px"><canvas class="wave" id="wOrig"></canvas><div class="wlab">原声波形</div>' +
+      '<canvas class="wave" id="wMine"></canvas><div class="wlab">你的波形 —— 看两条的起伏和长短对不对得上</div></div>' +
+      '<div style="margin-top:12px"><div class="metric" style="border:none"><span class="k">录音历史</span></div><div id="hist"></div></div>' +
+      '<div class="keys" style="margin-top:10px"><button id="dlRec">下载这条录音</button></div>';
+
+    var H = $('hist'); H.innerHTML = '';
+    (cur.recs[idx] || []).slice().reverse().forEach(function (x, k) {
+      var d = new Date(x.at);
+      var row = document.createElement('div');
+      row.className = 'histrow';
+      row.innerHTML = '<span class="when">' + (d.getMonth() + 1) + '/' + d.getDate() + ' ' +
+        String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0') +
+        ' · ' + x.dur.toFixed(2) + 's' + (k === 0 ? ' （最新）' : '') + '</span><button class="pl">▶</button>';
+      row.querySelector('.pl').addEventListener('click', function () { stopSound(); playBlob(x.blob); });
+      H.appendChild(row);
+    });
+    $('dlRec').addEventListener('click', function () {
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(r.blob);
+      a.download = cur.name.replace(/[^\w一-龥]+/g, '_') + '_S' + (idx + 1) + '.webm';
+      a.click();
+    });
+    drawWave($('wOrig'), sliceOriginal(s));
+    r.blob.arrayBuffer().then(function (b) { return AC().decodeAudioData(b); })
+      .then(function (ab) { drawWave($('wMine'), Promise.resolve(ab)); return ab; })
+      .then(function (ab) { return pitchOf(ab).then(function (mine) {
+          return sliceOriginal(s).then(function (oab) { return pitchOf(oab).then(function (orig) {
+            var el = $('pitchV'); if (!el) return;
+            if (!mine || !orig) { el.textContent = '测不出（声音太轻或太短）'; return; }
+            var d = mine - orig;
+            el.innerHTML = '你 <b class="num">' + Math.round(mine) + ' Hz</b> · 原声 <b class="num">' + Math.round(orig) + ' Hz</b> ' +
+              '<span class="' + (Math.abs(d) < 18 ? 'good' : 'warn') + '">（' + (d > 0 ? '高' : '低') + ' ' + Math.abs(Math.round(d)) + ' Hz）</span>';
+          }); });
+        }); })
+      .catch(function () { var el = $('pitchV'); if (el) el.textContent = '测不出'; });
+  }
+  function sliceOriginal(s) {
+    return cur.audio.arrayBuffer().then(function (b) { return AC().decodeAudioData(b); }).then(function (ab) {
+      var sr = ab.sampleRate, a = Math.floor(s[0] * sr), n = Math.floor((s[1] - s[0]) * sr);
+      var out = AC().createBuffer(1, Math.max(1, n), sr);
+      var src = ab.getChannelData(0), dst = out.getChannelData(0);
+      for (var i = 0; i < n; i++) dst[i] = src[a + i] || 0;
+      return out;
+    });
+  }
+  function drawWave(cv, abP) {
+    Promise.resolve(abP).then(function (ab) {
+      var d = ab.getChannelData(0), w = cv.clientWidth || 300, h = 54;
+      cv.width = w * 2; cv.height = h * 2;
+      var g = cv.getContext('2d'); g.scale(2, 2); g.clearRect(0, 0, w, h);
+      g.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--gold').trim() || '#a8894f';
+      g.lineWidth = 1;
+      var step = Math.max(1, Math.floor(d.length / w));
+      g.beginPath();
+      for (var x = 0; x < w; x++) {
+        var mx = 0;
+        for (var j = 0; j < step; j++) { var v = Math.abs(d[x * step + j] || 0); if (v > mx) mx = v; }
+        var y = mx * h * 0.92;
+        g.moveTo(x + .5, h / 2 - y / 2); g.lineTo(x + .5, h / 2 + y / 2);
+      }
+      g.stroke();
+    }).catch(function () {});
+  }
+  /* 自相关测基频（中位数） */
+  function pitchOf(ab) {
+    return new Promise(function (res) {
+      var d = ab.getChannelData(0), sr = ab.sampleRate;
+      var win = Math.floor(sr * 0.04), hop = Math.floor(sr * 0.02);
+      var lo = Math.floor(sr / 400), hi = Math.floor(sr / 70), vals = [];
+      for (var p = 0; p + win < d.length; p += hop) {
+        var e = 0; for (var i = 0; i < win; i++) e += d[p + i] * d[p + i];
+        if (Math.sqrt(e / win) < 0.012) continue;
+        var best = 0, bl = -1;
+        for (var lag = lo; lag < hi; lag++) {
+          var s = 0;
+          for (var k = 0; k < win - lag; k += 2) s += d[p + k] * d[p + k + lag];
+          s /= (win - lag);
+          if (s > best) { best = s; bl = lag; }
+        }
+        if (bl > 0 && best > 0.004) vals.push(sr / bl);
+      }
+      if (vals.length < 4) return res(null);
+      vals.sort(function (a, b) { return a - b; });
+      res(vals[Math.floor(vals.length / 2)]);
+    });
   }
 
-  var PRESETS = [{"name": "Catherine — Children's Mental Health Week (2017)", "audio": "media/kate.m4a", "dur": "3:20", "practice": ["Thank you so much for your very warm welcome.", "It is great to be here to support Children's Mental Health week.", "People often ask me why I am so interested in the mental health of children and young people.", "The answer is quite simple - it is because I think that every child should have the best possible start in life.", "When I was growing up I was very lucky.", "My family was the most important thing to me.", "They provided me with somewhere safe to grow and learn, and I know I was fortunate not to have been confronted by serious adversity at a young age.", "For some children, maybe there are some here today; I know that life can sometimes feel difficult and full of challenges.", "I think that every child should have people around them to show them love, and to show them kindness, and nurture them as they grow.", "This is what Place2Be is doing so amazingly here in your school.", "Recently I met an 11 year-old girl who was helped by Place2Be.", "She told me that if you keep your feelings inside, you can feel as though you will blow up like a balloon.", "But, by talking to someone about them, it can make you feel so much better.", "I thought that was such a clever way of looking at it.", "If we are worried, upset, lonely or angry – the best thing to do is to talk to someone about it.", "Whether that is your mother or father, a teacher or a friend.", "I know that in your school you have been working on a project to spread a little kindness and I think this is such an important thing to do.", "If you see someone who you think might need help, try and be kind to them.", "Keep a look out for them if they are on their own or seem sad or worried.", "Perhaps they just need a hug or someone to talk to.", "I know it is hard if you are feeling down yourself.", "But helping someone out will also make you feel so much better too.", "My parents taught me about the importance of qualities like kindness, respect, and honesty, and I realise how central, values like these have been to me throughout my life.", "That is why William and I want to teach our little children, George and Charlotte just how important these things are as they grow up.", "In my view it is just as important as excelling at maths or sport.", "Now, I am very excited about presenting the Kindness cup and hearing your stories.", "Do remember that even if you don't win today, the fact that you are helping make your school such a supportive and friendly place is so important.", "You should all be very proud of yourselves and each other.", "Thank you so much for having me here with you all today."], "check": ["**Thank you** so much | for your very **warm welcome**. |", "It is **great** to be here | to support **Children's Mental Health** week. ||", "People **often** ask me | **why** I am so interested | in the **mental health** of children and young people. |", "The answer is **quite simple** - | it is because I think | that **every child** | should have the **best possible start** | in **life**. ||", "When I was **growing up** | I was **very lucky**. |", "My **family** | was the **most important** thing to me. |", "They provided me with somewhere **safe** | to **grow** and **learn**, | and I know I was **fortunate** | not to have been confronted | by **serious adversity** | at a **young age**. ||", "For **some children**, | maybe there are **some here today**; | I know that **life** | can sometimes feel **difficult** | and **full of challenges**. |", "I think that **every child** | should have people around them | to show them **love**, | and to show them **kindness**, | and **nurture** them | as they **grow**. |", "**This** is what **Place2Be** | is doing so **amazingly** | here in **your school**. ||", "**Recently** | I met an **11 year-old girl** | who was **helped** by Place2Be. |", "She told me | that if you keep your feelings **inside**, | you can feel as though | you will **blow up** | like a **balloon**. |", "**But**, | by **talking** to someone about them, | it can make you feel | so much **better**. ||", "I thought that was | such a **clever way** | of looking at it. |", "If we are **worried**, | **upset**, | **lonely** or **angry** – | the **best thing** to do | is to **talk to someone** about it. |", "Whether that is | your **mother** or **father**, | a **teacher** | or a **friend**. ||", "I know that in your school | you have been working on a **project** | to spread a little **kindness** | and I think | this is such an **important thing** to do. ||", "If you see someone | who you think might **need help**, | try and be **kind** to them. |", "**Keep a look out** for them | if they are **on their own** | or seem **sad** or **worried**. |", "Perhaps they just need | a **hug** | or someone to **talk to**. ||", "I know it is **hard** | if you are feeling **down** yourself. |", "**But** | helping someone out | will also make you feel | so much **better** too. ||", "My **parents** taught me | about the importance of qualities | like **kindness**, **respect**, and **honesty**, | and I realise | how **central** | values like these have been to me | throughout my **life**. |", "That is why | **William and I** | want to teach our little children, | **George and Charlotte** | just how **important** these things are | as they **grow up**. ||", "In my view | it is **just as important** | as excelling at **maths** or **sport**. ||", "**Now**, | I am very **excited** | about presenting the **Kindness cup** | and hearing your **stories**. |", "Do **remember** | that even if you **don't win** today, | the fact that you are helping | make your school | such a **supportive and friendly place** | is so **important**. |", "You should all be | **very proud** | of **yourselves** | and **each other**. ||", "**Thank you** so much | for having me here | with you **all** today. ||"]}, {"name": "Emma Watson — HeForShe (2014)", "audio": "media/emma.m4a", "dur": "11:47", "practice": ["Today we are launching a campaign called \"HeForShe.\"", "I am reaching out to you because I need your help.", "We want to end gender inequality—and to do that we need everyone to be involved.", "This is the first campaign of its kind at the UN: we want to try and galvanize as many men and boys as possible to be advocates for gender equality.", "And we don't just want to talk about it, but make sure it is tangible.", "I was appointed six months ago and the more I have spoken about feminism the more I have realized that fighting for women's rights has too often become synonymous with man-hating.", "If there is one thing I know for certain, it is that this has to stop.", "For the record, feminism by definition is: \"The belief that men and women should have equal rights and opportunities. It is the theory of the political, economic and social equality of the sexes.\"", "I started questioning gender-based assumptions when at eight I was confused at being called \"bossy,\" because I wanted to direct the plays we would put on for our parents—but the boys were not.", "When at 14 I started being sexualized by certain elements of the press.", "When at 15 my girlfriends started dropping out of their sports teams because they didn't want to appear \"muscly.\"", "When at 18 my male friends were unable to express their feelings.", "I decided I was a feminist and this seemed uncomplicated to me.", "But my recent research has shown me that feminism has become an unpopular word.", "Apparently I am among the ranks of women whose expressions are seen as too strong, too aggressive, isolating, anti-men and, unattractive.", "Why is the word such an uncomfortable one?", "I am from Britain and think it is right that as a woman I am paid the same as my male counterparts.", "I think it is right that I should be able to make decisions about my own body.", "I think it is right that women be involved on my behalf in the policies and decision-making of my country.", "I think it is right that socially I am afforded the same respect as men.", "But sadly I can say that there is no one country in the world where all women can expect to receive these rights.", "No country in the world can yet say they have achieved gender equality.", "These rights I consider to be human rights but I am one of the lucky ones.", "My life is a sheer privilege because my parents didn't love me less because I was born a daughter.", "My school did not limit me because I was a girl.", "My mentors didn't assume I would go less far because I might give birth to a child one day.", "These influencers were the gender equality ambassadors that made me who I am today.", "They may not know it, but they are the inadvertent feminists who are changing the world today.", "And we need more of those.", "And if you still hate the word—it is not the word that is important but the idea and the ambition behind it.", "Because not all women have been afforded the same rights that I have.", "In fact, statistically, very few have been.", "In 1995, Hilary Clinton made a famous speech in Beijing about women's rights.", "Sadly many of the things she wanted to change are still a reality today.", "But what stood out for me the most was that only 30 per cent of her audience were male.", "How can we affect change in the world when only half of it is invited or feel welcome to participate in the conversation?", "Men—I would like to take this opportunity to extend your formal invitation.", "Gender equality is your issue too.", "Because to date, I've seen my father's role as a parent being valued less by society despite my needing his presence as a child as much as my mother's.", "I've seen young men suffering from mental illness unable to ask for help for fear it would make them look less \"macho\"—in fact in the UK suicide is the biggest killer of men between 20-49 years of age; eclipsing road accidents, cancer and coronary heart disease.", "I've seen men made fragile and insecure by a distorted sense of what constitutes male success.", "Men don't have the benefits of equality either.", "We don't often talk about men being imprisoned by gender stereotypes but I can see that they are and that when they are free, things will change for women as a natural consequence.", "If men don't have to be aggressive in order to be accepted women won't feel compelled to be submissive.", "If men don't have to control, women won't have to be controlled.", "Both men and women should feel free to be sensitive.", "Both men and women should feel free to be strong… It is time that we all perceive gender on a spectrum not as two opposing sets of ideals.", "If we stop defining each other by what we are not and start defining ourselves by what we are—we can all be freer and this is what HeForShe is about.", "It's about freedom.", "I want men to take up this mantle.", "So their daughters, sisters and mothers can be free from prejudice but also so that their sons have permission to be vulnerable and human too—reclaim those parts of themselves they abandoned and in doing so be a more true and complete version of themselves.", "You might be thinking who is this Harry Potter girl?", "And what is she doing up on stage at the UN.", "It's a good question and trust me, I have been asking myself the same thing.", "I don't know if I am qualified to be here.", "All I know is that I care about this problem.", "And I want to make it better.", "And having seen what I've seen—and given the chance—I feel it is my duty to say something.", "English Statesman Edmund Burke said: \"All that is needed for the forces of evil to triumph is for enough good men and women to do nothing.\"", "In my nervousness for this speech and in my moments of doubt I've told myself firmly—if not me, who, if not now, when.", "If you have similar doubts when opportunities are presented to you I hope those words might be helpful.", "Because the reality is that if we do nothing it will take 75 years, or for me to be nearly a hundred before women can expect to be paid the same as men for the same work.", "15.5 million girls will be married in the next 16 years as children.", "And at current rates it won't be until 2086 before all rural African girls will be able to receive a secondary education.", "If you believe in equality, you might be one of those inadvertent feminists I spoke of earlier.", "And for this I applaud you.", "We are struggling for a uniting word but the good news is we have a uniting movement.", "It is called HeForShe.", "I am inviting you to step forward, to be seen to speak up, to be the \"he\" for \"she\".", "And to ask yourself if not me, who? If not now, when?", "Thank you."], "check": ["**Today** we are **launching** a campaign | called **\"HeForShe.\"** ||", "I am **reaching out** to you | because I need your **help**. |", "We want to **end** | **gender inequality**—and to do that | we need **everyone** | to be **involved**. ||", "This is the **first** campaign of its kind at the UN: | we want to **galvanize** | as many **men and boys** as possible | to be **advocates** for gender equality. |", "And we don't just want to **talk** about it, | but make sure it is **tangible**. ||", "I was appointed **six months ago** | and the **more** I have spoken about feminism | the **more** I have realized | that fighting for women's rights | has too often become **synonymous** with **man-hating**. |", "If there is **one thing** I know for **certain**, | it is that **this has to stop**. ||", "For the **record**, | feminism by definition is: | \"The belief that **men** and **women** | should have **equal rights** and **opportunities**. | It is the theory of the **political**, **economic** and **social** **equality** of the sexes.\" ||", "I started **questioning** gender-based assumptions | when at **eight** | I was confused at being called **\"bossy,\"** | because I wanted to **direct** the plays | we would put on for our parents—but the **boys** | were **not**. ||", "When at **14** | I started being **sexualized** | by certain elements of the **press**. |", "When at **15** | my **girlfriends** started **dropping out** of their sports teams | because they didn't want to appear **\"muscly.\"** |", "When at **18** | my **male friends** | were unable to express their **feelings**. ||", "I **decided** I was a **feminist** | and this seemed **uncomplicated** to me. |", "**But** | my recent research has shown me | that feminism has become an **unpopular** word. ||", "**Apparently** | I am among the ranks of women | whose expressions are seen as | too **strong**, | too **aggressive**, | **isolating**, | **anti-men** | and, **unattractive**. ||", "**Why** is the word | such an **uncomfortable** one? ||", "I am from **Britain** | and think it is **right** | that as a woman | I am **paid the same** as my male counterparts. |", "I think it is **right** | that I should be able to make **decisions** about my **own body**. |", "I think it is **right** | that **women** be involved on my behalf | in the **policies** and **decision-making** of my country. |", "I think it is **right** | that socially | I am afforded the **same respect** as men. |", "**But sadly** | I can say that there is **no one country** in the world | where **all women** | can expect to receive these rights. ||", "**No country** in the world | can **yet** say | they have achieved **gender equality**. ||", "These rights I consider to be **human rights** | but I am **one of the lucky ones**. |", "My life is a **sheer privilege** | because my parents didn't love me **less** | because I was born a **daughter**. |", "My **school** did not limit me | because I was a **girl**. |", "My **mentors** didn't assume I would go **less far** | because I might give **birth** to a child one day. |", "These **influencers** | were the gender equality **ambassadors** | that made me **who I am today**. |", "They may **not know** it, | but they are the **inadvertent feminists** | who are **changing the world** today. |", "And we need **more** of those. ||", "And if you **still hate** the word— | it is **not the word** that is important | but the **idea** | and the **ambition** behind it. |", "Because **not all women** | have been afforded the same rights that **I** have. |", "**In fact**, | statistically, | **very few** have been. ||", "In **1995**, | **Hilary Clinton** made a famous speech in **Beijing** | about women's rights. |", "**Sadly** | many of the things she wanted to change | are **still a reality** today. ||", "But what **stood out** for me the most | was that **only 30 per cent** | of her audience | were **male**. |", "**How** can we affect change in the world | when only **half** of it | is invited | or feel **welcome** | to participate in the **conversation**? ||", "**Men**— | I would like to take this opportunity | to extend your **formal invitation**. |", "**Gender equality** | is **your** issue **too**. ||", "Because to date, | I've seen my **father's** role as a parent | being valued **less** by society | despite my **needing his presence** as a child | as much as my **mother's**. ||", "I've seen **young men** | suffering from **mental illness** | unable to ask for help | for fear it would make them look less **\"macho\"**— | in fact in the UK | **suicide** | is the **biggest killer** of men | between **20-49** years of age; | eclipsing **road accidents**, **cancer** | and **coronary heart disease**. |", "I've seen men made **fragile** and **insecure** | by a **distorted sense** | of what constitutes **male success**. |", "**Men** | don't have the benefits of equality | **either**. ||", "We don't **often** talk about | men being **imprisoned** by gender stereotypes | but I **can see** that they **are** | and that when they are **free**, | things will **change** for women | as a **natural consequence**. ||", "If men don't have to be **aggressive** | in order to be accepted | women won't feel compelled to be **submissive**. |", "If men don't have to **control**, | women won't have to be **controlled**. ||", "**Both** men and women | should feel free to be **sensitive**. |", "**Both** men and women | should feel free to be **strong**… | It is **time** | that we all perceive gender | on a **spectrum** | **not** as two opposing sets of ideals. ||", "If we stop defining each other | by what we are **not** | and start defining ourselves | by what we **are**— | we can all be **freer** | and **this** is what HeForShe is about. |", "It's about **freedom**. ||", "I want men to **take up this mantle**. |", "So their **daughters**, **sisters** and **mothers** | can be **free from prejudice** | but also so that their **sons** | have permission to be **vulnerable** and **human** too— | reclaim those parts of themselves they **abandoned** | and in doing so | be a **more true** and **complete** version of themselves. ||", "You might be thinking | **who is this Harry Potter girl?** |", "And what is she doing **up on stage at the UN**. |", "It's a **good question** | and **trust me**, | I have been asking myself **the same thing**. |", "I **don't know** if I am **qualified** to be here. |", "All I know | is that I **care** about this problem. |", "And I want to **make it better**. ||", "And having **seen** what I've seen— | and **given the chance**— | I feel it is my **duty** | to **say something**. |", "English Statesman **Edmund Burke** said: | \"All that is needed | for the forces of **evil** to triumph | is for enough **good men and women** | to do **nothing**.\" ||", "In my **nervousness** for this speech | and in my moments of **doubt** | I've told myself **firmly**— | if **not me**, **who**, | if **not now**, **when**. |", "If you have **similar doubts** | when opportunities are presented to you | I hope those words | might be **helpful**. ||", "Because the **reality** is | that if we do **nothing** | it will take **75 years**, | or for me to be **nearly a hundred** | before women can expect to be **paid the same** as men | for the **same work**. |", "**15.5 million** girls | will be **married** in the next 16 years | as **children**. |", "And at current rates | it won't be until **2086** | before all rural **African girls** | will be able to receive a **secondary education**. ||", "If you **believe in equality**, | you might be one of those | **inadvertent feminists** I spoke of earlier. |", "And for **this** | I **applaud** you. ||", "We are **struggling** for a uniting **word** | but the **good news** is | we have a uniting **movement**. |", "It is called **HeForShe**. |", "I am inviting you | to **step forward**, | to be seen to **speak up**, | to be the **\"he\"** for **\"she\"**. |", "And to ask yourself | if **not me**, **who**? | If **not now**, **when**? ||", "**Thank you**. ||"]}];
+  /* ---------- 导出 / 导入备份 ---------- */
+  function blobToB64(b) {
+    return new Promise(function (res) {
+      var r = new FileReader(); r.onload = function () { res(r.result); }; r.readAsDataURL(b);
+    });
+  }
+  function b64ToBlob(s) { return fetch(s).then(function (r) { return r.blob(); }); }
+  $('btnExport').addEventListener('click', function () {
+    toast('正在打包…录音多的话要等几秒。');
+    var jobs = [];
+    var out = { v: 2, name: cur.name, practice: cur.practice, check: cur.check, segs: cur.segs, done: cur.done, recs: {} };
+    Object.keys(cur.recs).forEach(function (i) {
+      out.recs[i] = [];
+      (cur.recs[i] || []).forEach(function (r, k) {
+        jobs.push(blobToB64(r.blob).then(function (b64) { out.recs[i][k] = { b64: b64, dur: r.dur, at: r.at }; }));
+      });
+    });
+    jobs.push(blobToB64(cur.audio).then(function (b) { out.audio = b; }));
+    Promise.all(jobs).then(function () {
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([JSON.stringify(out)], { type: 'application/json' }));
+      a.download = cur.name.replace(/[^\w一-龥]+/g, '_') + '_备份.json';
+      a.click();
+      toast('备份已下载。');
+    });
+  });
+  $('btnImportData').addEventListener('click', function () { $('importFile').click(); });
+  $('importFile').addEventListener('change', function (e) {
+    var f = e.target.files[0]; if (!f) return;
+    f.text().then(function (t) {
+      var d = JSON.parse(t);
+      var jobs = [], m = { id: Date.now(), name: d.name + ' (恢复)', practice: d.practice, check: d.check, segs: d.segs, done: d.done || [], recs: {} };
+      jobs.push(b64ToBlob(d.audio).then(function (b) { m.audio = b; m.audioType = b.type; }));
+      Object.keys(d.recs || {}).forEach(function (i) {
+        m.recs[i] = [];
+        (d.recs[i] || []).forEach(function (r, k) {
+          jobs.push(b64ToBlob(r.b64).then(function (b) { m.recs[i][k] = { blob: b, dur: r.dur, at: r.at }; }));
+        });
+      });
+      Promise.all(jobs).then(function () { idbPut(m).then(function () { toast('备份已恢复。'); renderLib(); }); });
+    }).catch(function () { toast('这个文件读不了。'); });
+    e.target.value = '';
+  });
+  $('btnRemark').addEventListener('click', function () {
+    if (!confirm('重新断句？现有时间点会清掉（录音和过关保留）。')) return;
+    markSegs = []; markN = 0; startMark();
+  });
+
+  /* ---------- 键盘 ---------- */
+  document.addEventListener('keydown', function (e) {
+    if (/^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
+    if (!$('viewMark').hidden) {
+      if (e.code === 'Space') { e.preventDefault(); doMark(); }
+      return;
+    }
+    if ($('viewBench').hidden) return;
+    var k = e.key.toLowerCase();
+    if (e.code === 'Space') { e.preventDefault(); toggleLoop(); }
+    else if (k === 'r') { e.preventDefault(); wholeRec = false; toggleRec(); }
+    else if (k === 'm') { e.preventDefault(); playMine(); }
+    else if (k === 'a') { e.preventDefault(); $('fAB').click(); }
+    else if (e.key === 'Enter') { e.preventDefault(); $('fPass').click(); }
+    else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+    else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+  });
+
+  /* ---------- 内置素材 ---------- */
+  var PRESETS = [
+ {
+  "name": "Catherine（凯特）— Children's Mental Health Week (2017)",
+  "audio": "media/kate.m4a",
+  "dur": "3:20",
+  "note": "英式 RP · 慢而圆润 · 最易起步",
+  "practice": [
+   "Thank you so much for such a warm welcome and it's such a treat to be here to support Children's Mental Health Week.",
+   "People often ask me why I'm so interested in the mental health of children and young people and the answer is quite simple.",
+   "Because I think that every child should have the best possible start in life.",
+   "When I was growing up I was very lucky. My family was the most important thing to me.",
+   "They provided me with somewhere safe to grow and learn and I know I was fortunate",
+   "not to have been confronted by serious adversity at a young age. For some children,",
+   "maybe there are some here today,",
+   "I know that life can sometimes feel difficult and full of challenges.",
+   "I think that every child should have people around them to show them",
+   "love and to show them kindness and nurture them as they grow.",
+   "This is what Place2Be is doing so amazingly well here in your school.",
+   "Recently I met a little 11 year old girl who was helped by Place2Be.",
+   "She told me that if you keep your feelings inside you can feel as though you might blow up like a balloon.",
+   "But by talking to someone about them it can make you feel so much better.",
+   "I thought that it was such a clever idea.",
+   "If we are worried, upset, lonely or angry the best thing to do is to talk to somebody about it.",
+   "Whether that is your mother or father, a teacher or even a friend.",
+   "I know that in your school you have been working on a project to spread a little kindness and I think it is such a great thing to be doing.",
+   "If you see someone who you think might need help, try to be kind to them.",
+   "Keep a look out for them if they are on their own or seem sad or worried.",
+   "Perhaps they just need a hug or someone to talk to.",
+   "I know it is hard if you are feeling down yourself but",
+   "helping someone out will also make you feel so much better too.",
+   "My parents taught me the importance of qualities like kindness,",
+   "respect and honesty and I realise how central values like these have been to me throughout my life.",
+   "That is why William and I, as parents,",
+   "want to teach our little children, George and Charlotte,",
+   "just how important these things are as they grow up.",
+   "In my view, it is just as important as excelling in maths or sport.",
+   "Now I am very excited to be presenting the Kindness Cup and hearing your stories.",
+   "Do remember that even if you don't win here today,",
+   "the fact that you are helping make your school such a supportive and friendly place is so important.",
+   "You should all be very proud of yourselves and of each other.",
+   "Thank you so much for having me here."
+  ],
+  "check": [
+   "**Thank** you so **much** for such a warm welcome and it's such a treat to be here to **support** **Children's** Mental Health Week.",
+   "**People** **often** **ask** me why I'm so interested in the mental health of **children** and young people and the answer is quite simple.",
+   "**Because** I think that **every** child should have the best possible start in life.",
+   "When I was growing up I was very lucky. || My **family** was the most important thing to me.",
+   "They provided me with somewhere safe to grow and learn and I know I was fortunate",
+   "not to have been confronted by serious adversity at a young age. || For some children,",
+   "maybe there are some here today,",
+   "I **know** that life can **sometimes** feel difficult and full of challenges.",
+   "I **think** that every child should have people around them to show them",
+   "them love and to **show** them kindness and **nurture** them as they grow.",
+   "This is what **Place2Be** is **doing** so **amazingly** well here in your school.",
+   "**Recently** I met a **little** 11 year old girl who was helped by Place2Be.",
+   "She told me that if you keep your **feelings** inside you can **feel** as though you might blow up like a balloon.",
+   "But by **talking** to someone about them it can make you feel so much better.",
+   "I thought that it was such a clever idea.",
+   "If we are **worried,** | **upset,** **lonely** or angry the **best** thing to do is to talk to somebody about it.",
+   "**Whether** that is your **mother** or father, || a teacher or even a friend.",
+   "I **know** that in your school you have been working on a project to spread a little kindness and I think it is such a great thing to be doing.",
+   "If you **see** **someone** who you think might need help, || try to be kind to them.",
+   "Keep a look out for them if they are on their own or seem sad or worried.",
+   "**Perhaps** they just need a **hug** or someone to talk to.",
+   "I **know** it is hard if you are feeling down yourself but",
+   "**helping** **someone** out will also make you feel so much better too.",
+   "My parents taught me the **importance** of qualities like kindness,",
+   "respect and honesty and I **realise** how central **values** like these have been to me throughout my life.",
+   "That is why William and I, as parents,",
+   "**want** to teach our little children, George and Charlotte,",
+   "just how **important** these things are as they grow up.",
+   "In my view, || it is just as **important** as **excelling** in maths or sport.",
+   "**Now** I am very excited to be presenting the Kindness Cup and hearing your stories.",
+   "Do remember that even if you don't win here today,",
+   "the fact that you are helping make your school such a supportive and friendly place is so important.",
+   "You should **all** be very proud of **yourselves** and of each other.",
+   "Thank you so much for having me here."
+  ],
+  "segs": [
+   [
+    0.64,
+    8.46
+   ],
+   [
+    9.24,
+    17.14
+   ],
+   [
+    17.54,
+    22.66
+   ],
+   [
+    24.52,
+    30.34
+   ],
+   [
+    31.22,
+    36.21
+   ],
+   [
+    36.23,
+    44.9
+   ],
+   [
+    45.3,
+    47.04
+   ],
+   [
+    47.68,
+    51.6
+   ],
+   [
+    52.32,
+    57.01
+   ],
+   [
+    57.03,
+    61.98
+   ],
+   [
+    63.06,
+    68.34
+   ],
+   [
+    70.14,
+    74.0
+   ],
+   [
+    74.62,
+    80.78
+   ],
+   [
+    81.84,
+    86.84
+   ],
+   [
+    88.42,
+    91.14
+   ],
+   [
+    91.54,
+    98.58
+   ],
+   [
+    99.12,
+    103.7
+   ],
+   [
+    104.9,
+    112.34
+   ],
+   [
+    113.28,
+    117.92
+   ],
+   [
+    118.4,
+    122.7
+   ],
+   [
+    123.6,
+    126.1
+   ],
+   [
+    127.26,
+    131.85
+   ],
+   [
+    131.87,
+    136.26
+   ],
+   [
+    137.84,
+    141.62
+   ],
+   [
+    142.04,
+    149.92
+   ],
+   [
+    150.02,
+    153.92
+   ],
+   [
+    154.24,
+    157.1
+   ],
+   [
+    157.4,
+    160.64
+   ],
+   [
+    161.58,
+    167.02
+   ],
+   [
+    169.14,
+    174.32
+   ],
+   [
+    174.76,
+    178.78
+   ],
+   [
+    179.12,
+    185.06
+   ],
+   [
+    186.02,
+    189.48
+   ],
+   [
+    190.44,
+    192.34
+   ]
+  ]
+ },
+ {
+  "name": "Emma Watson — HeForShe (2014)",
+  "audio": "media/emma.m4a",
+  "dur": "11:47",
+  "note": "英式 RP · 偏亮 · 已剔除 2 分钟掌声",
+  "practice": [
+   "Your Excellencies,",
+   "UN Secretary General,",
+   "President of the General Assembly,",
+   "Executive Director of UN Women,",
+   "and distinguished guests,",
+   "today we are launching a campaign called HeForShe.",
+   "I am reaching out to you because we need your help.",
+   "We want to end gender inequality.",
+   "And to do this, we need everyone involved.",
+   "This is the first campaign of its kind at the UN.",
+   "We want to try and galvanise as many men and boys as possible to be advocates for change.",
+   "And we don't just want to talk about it.",
+   "We want to try and make sure that it's tangible.",
+   "I was appointed as Goodwill Ambassador for UN Women six months ago.",
+   "And the more I've spoken about feminism,",
+   "the more I have realised that fighting for women's rights has too often become synonymous with man-hating.",
+   "If there is one thing I know for certain, it is that this has to stop.",
+   "For the record,",
+   "feminism by definition is the belief that men and women should have equal rights and opportunities.",
+   "It is the theory of the political,",
+   "economic and social equality of the sexes.",
+   "I started questioning gender-based assumptions a long time ago. When I was eight,",
+   "I was confused at being called bossy because I wanted to direct the plays that we would put on for our parents.",
+   "But the boys were not. When at 14,",
+   "I started to be sexualised by certain elements of the media. When at 15,",
+   "my girlfriends started dropping out of their beloved sports teams because they didn't want to appear muscly.",
+   "When at 18,",
+   "my male friends were unable to express their feelings.",
+   "I decided that I was a feminist and this seemed uncomplicated to me.",
+   "But my recent research has shown me that feminism has become an unpopular word.",
+   "Women are choosing not to identify as feminist.",
+   "Apparently,",
+   "I am among the ranks of women whose expressions are seen as too strong, too aggressive,",
+   "isolating and anti-men. Unattractive, even.",
+   "Why has the word become such an uncomfortable one?",
+   "I am from Britain and I think it is right that I am paid the same as my male counterparts.",
+   "I think it is right that I should be able to make decisions about my own body.",
+   "I think it",
+   "is right that women be",
+   "involved on my behalf in the policies and the decisions that will affect my life.",
+   "I think it is right that socially I am afforded the same respect as men.",
+   "But sadly,",
+   "I can say that there is no one country in the",
+   "world where all women can expect to receive these rights.",
+   "No country in the world can yet say that they have achieved gender equality.",
+   "These rights I consider to be human rights, but I am one of the lucky ones.",
+   "My life is a sheer privilege because my parents didn't love me less because I was born a daughter.",
+   "My school did not limit me because I was a girl.",
+   "My mentors didn't assume that I would go less far because I might give birth to a child one day.",
+   "These influences were the gender equality ambassadors that made me who I am today.",
+   "They may not know it, but they are the inadvertent feminists who are changing the world today.",
+   "We need more of those.",
+   "And if you still hate the word,",
+   "it is not the word that is important.",
+   "It's the idea and the ambition behind it.",
+   "Because not all women have received the same rights that I have. In fact, statistically,",
+   "very few have been.",
+   "In 1995,",
+   "Hillary Clinton made a famous speech in Beijing about women's rights.",
+   "Sadly, many of the things that she wanted to change are still true today.",
+   "But what stood out for me the most was that less than 30 % of the audience were male.",
+   "How can we affect change in the world when only half of",
+   "it is invited or feel welcome to participate in the conversation?",
+   "Men, I would like to take this opportunity to extend your formal invitation.",
+   "Gender equality is your issue too. Because to date,",
+   "I've seen my father's role as a parent being valued less by society,",
+   "despite my needing his presence as a child as much as my mother's.",
+   "I've seen young men suffering from mental illness, unable to ask for help,",
+   "for fear it would make them less of a man or less of a man.",
+   "In fact, in the UK,",
+   "suicide is the biggest killer of men between 20 to 49,",
+   "eclipsing road accidents, cancer,",
+   "and coronary heart disease.",
+   "I've seen men made fragile and insecure by a distorted sense of what constitutes male success.",
+   "Men don't have the benefits of equality either.",
+   "We don't often talk about men being imprisoned by gender stereotypes, but I can see that they are,",
+   "and that when they are free,",
+   "things will change for women as a natural consequence.",
+   "If men don't have to be aggressive in order to be accepted,",
+   "women won't feel compelled to be submissive.",
+   "If men don't have to control,",
+   "women won't have to be controlled.",
+   "Both men and women should feel free to be sensitive.",
+   "Both men and women should feel free to be strong.",
+   "It is time that we all perceive gender on a spectrum instead of two sets of opposing ideals.",
+   "If we stop",
+   "defining each other by what we are not and start defining ourselves by who we are, we can all be freer.",
+   "And this is what HeForShe is about.",
+   "It's about freedom.",
+   "I want men to take up this mantle so that their daughters, sisters, and mothers can be free from",
+   "prejudice, but also so that their sons have permission to be vulnerable and human too.",
+   "We claim those parts of themselves they abandoned,",
+   "and in doing so, be a more true and complete version of themselves.",
+   "You might be thinking, who is this Harry Potter girl,",
+   "and what is she doing speaking at the UN?",
+   "And it's a really good question. I've been asking myself the same thing.",
+   "All I know is that I care about this problem, and I want to make it better.",
+   "And having seen what I've seen and given the chance,",
+   "I feel it is my responsibility to say something.",
+   "Statesman Edmund Burke said,",
+   "all that is needed for the forces of evil to triumph is for good men and women to do nothing.",
+   "In my nervousness for this speech,",
+   "and in my moments of doubt,",
+   "I've told myself firmly,",
+   "if not me, who? If not now, when?",
+   "If you have similar doubts when opportunities are presented to you,",
+   "I hope that those words will be helpful.",
+   "Because the reality is that if we do nothing,",
+   "it will take 75 years,",
+   "or for me to be nearly a hundred,",
+   "before women can expect to be paid the same as men, for the same work.",
+   "15.5 million girls will be married in the next 16 years as children.",
+   "And at current rates,",
+   "it won't be until 2086 before all rural African girls can have a secondary education.",
+   "If you believe in equality,",
+   "you might be one of those inadvertent feminists that I spoke of earlier.",
+   "And for this, I applaud you.",
+   "We are struggling for a uniting word, but the good news is that we have a uniting movement.",
+   "It is called HeForShe. I am inviting you to step forward,",
+   "to be seen,",
+   "and to ask yourself,",
+   "if not me, who? If not now, when?",
+   "Thank you very, much. Thank you very much.",
+   "Thank you very much. Thank you very much."
+  ],
+  "check": [
+   "Your Excellencies,",
+   "UN Secretary General,",
+   "**President** of the General Assembly,",
+   "**Executive** **Director** of UN Women,",
+   "and **distinguished** guests,",
+   "**today** we are launching a campaign called HeForShe.",
+   "I am reaching out to you because we need your help.",
+   "We want to end gender inequality.",
+   "And to do this, || we need **everyone** involved.",
+   "This is the **first** **campaign** of its **kind** at the UN.",
+   "We want to try and **galvanise** as **many** **men** and **boys** as possible to be advocates for change.",
+   "And we don't just want to talk about it.",
+   "We **want** to try and make sure that it's **tangible.**",
+   "I was **appointed** as Goodwill Ambassador for UN Women six months ago.",
+   "And the more I've spoken about feminism,",
+   "the more I have realised that fighting for women's rights has too often become synonymous with man-hating.",
+   "If there is one thing I know for certain, it is that this has to stop.",
+   "For the record,",
+   "**feminism** by **definition** is the belief that **men** and women should have equal rights and opportunities.",
+   "It is the **theory** of the **political,**",
+   "**economic** and social equality of the sexes.",
+   "I started questioning **gender-based** assumptions a long time ago. || When I was eight,",
+   "I was **confused** at being called **bossy** **because** I wanted to direct the plays that we would put on for our parents.",
+   "But the **boys** were not. || When at 14,",
+   "I started to be **sexualised** by certain elements of the media. || When at 15,",
+   "my **girlfriends** **started** dropping out of their beloved sports teams because they didn't want to appear muscly.",
+   "When at 18,",
+   "my **male** friends were **unable** to express their feelings.",
+   "I **decided** that I was a feminist and this **seemed** uncomplicated to me.",
+   "But my recent **research** has shown me that **feminism** has become an unpopular word.",
+   "**Women** are **choosing** not to identify as feminist.",
+   "Apparently,",
+   "I am **among** the ranks of women whose expressions are seen as too strong, || too aggressive,",
+   "**isolating** and anti-men. || Unattractive, even.",
+   "Why has the word become such an uncomfortable one?",
+   "I am from Britain and I think it is right that I am paid the same as my male counterparts.",
+   "I **think** it is right that I should be able to make decisions about my own body.",
+   "I think it",
+   "is right that women be",
+   "be **involved** on my behalf in the **policies** and the decisions that will affect my life.",
+   "I think it is right that socially I am afforded the same respect as men.",
+   "But sadly,",
+   "I can say that there is no **one** country in the",
+   "the **world** where all women can expect to receive these rights.",
+   "No country in the world can yet say that they have achieved **gender** equality.",
+   "These **rights** I consider to be **human** rights, but I am one of the lucky ones.",
+   "My **life** is a sheer privilege because my parents didn't love me less because I was born a daughter.",
+   "My **school** did not limit me because I was a girl.",
+   "My **mentors** **didn't** **assume** that I would go less far because I might give birth to a child one day.",
+   "These influences were the **gender** equality ambassadors that made me who I am today.",
+   "They may not know it, but they are the **inadvertent** feminists who are changing the world today.",
+   "We **need** more of those.",
+   "And if you **still** hate the word,",
+   "it is not the **word** that is important.",
+   "It's the **idea** and the ambition behind it.",
+   "Because not all women have received the same rights that I have. || In fact, || statistically,",
+   "very few have been.",
+   "In 1995,",
+   "**Hillary** **Clinton** made a famous speech in Beijing about **women's** rights.",
+   "**Sadly,** | **many** of the things that she wanted to change are still true today.",
+   "But what stood out for me the most was that less than 30 % of the audience were male.",
+   "How can we affect change in the world when only half of",
+   "of it is **invited** or **feel** **welcome** to participate in the conversation?",
+   "Men, I would like to take this opportunity to extend your formal invitation.",
+   "**Gender** **equality** is your issue too. || Because to date,",
+   "I've seen my **father's** role as a parent being valued less by society,",
+   "**despite** my needing his presence as a child as much as my mother's.",
+   "I've seen **young** men **suffering** from mental illness, | **unable** to ask for help,",
+   "for **fear** it would make them **less** of a man or less of a man.",
+   "In fact, | in the **UK,**",
+   "**suicide** is the **biggest** killer of men between 20 to 49,",
+   "eclipsing road accidents, || cancer,",
+   "and **coronary** heart disease.",
+   "I've seen men made fragile and insecure by a distorted sense of what **constitutes** male success.",
+   "Men don't have the benefits of equality either.",
+   "We **don't** often talk about men being imprisoned by gender stereotypes, but I can see that they are,",
+   "and that when they are **free,**",
+   "**things** will change for women as a natural consequence.",
+   "If **men** don't have to be aggressive in order to be accepted,",
+   "women won't feel **compelled** to be submissive.",
+   "If **men** don't have to **control,**",
+   "women **won't** have to be **controlled.**",
+   "**Both** men and women should **feel** **free** to be sensitive.",
+   "**Both** men and women should feel **free** to be strong.",
+   "It is time that we all perceive gender on a spectrum **instead** of **two** sets of opposing ideals.",
+   "If we **stop**",
+   "**defining** each other by what we are not and **start** **defining** ourselves by who we are, || we can all be freer.",
+   "And this is what HeForShe is about.",
+   "It's about freedom.",
+   "I **want** **men** to take up this mantle so that their **daughters,** sisters, and mothers can be free from",
+   "from prejudice, but also so that their **sons** have permission to be **vulnerable** and human too.",
+   "We **claim** those parts of themselves they abandoned,",
+   "and in doing so, || be a more true and complete version of themselves.",
+   "You might be **thinking,** || who is this Harry Potter girl,",
+   "and what is she doing speaking at the UN?",
+   "And it's a really good **question.** | **I've** been asking myself the same thing.",
+   "**All** I **know** is that I **care** about this problem, and I want to make it better.",
+   "And having **seen** what I've seen and given the chance,",
+   "I feel it is my responsibility to say something.",
+   "**Statesman** Edmund Burke said,",
+   "all that is needed for the forces of evil to triumph is for **good** men and women to do nothing.",
+   "In my **nervousness** for this speech,",
+   "and in my **moments** of doubt,",
+   "I've told myself firmly,",
+   "if not me, || who? || If not now, || when?",
+   "If you have **similar** **doubts** when **opportunities** are presented to you,",
+   "I hope that those **words** will be helpful.",
+   "Because the reality is that if we do nothing,",
+   "it will take 75 years,",
+   "or for me to be **nearly** a hundred,",
+   "before **women** can expect to be paid the same as men, || for the same work.",
+   "15.5 **million** **girls** will be married in the next 16 years as children.",
+   "And at **current** rates,",
+   "it won't be until 2086 before **all** rural African girls can have a secondary education.",
+   "If you believe in equality,",
+   "you might be one of those **inadvertent** feminists that I spoke of earlier.",
+   "And for this, || I applaud you.",
+   "We are **struggling** for a **uniting** word, but the good news is that we have a uniting movement.",
+   "It is called HeForShe. I am inviting you to step forward,",
+   "to be seen,",
+   "and to ask yourself,",
+   "if not me, || who? || If not now, || when?",
+   "**Thank** you very, **much.** **Thank** you very much.",
+   "**Thank** you very much. Thank you very much."
+  ],
+  "segs": [
+   [
+    3.24,
+    5.32
+   ],
+   [
+    6.34,
+    8.1
+   ],
+   [
+    9.18,
+    11.28
+   ],
+   [
+    12.2,
+    14.62
+   ],
+   [
+    15.36,
+    17.16
+   ],
+   [
+    18.38,
+    23.46
+   ],
+   [
+    24.5,
+    27.62
+   ],
+   [
+    28.98,
+    32.06
+   ],
+   [
+    32.36,
+    36.86
+   ],
+   [
+    37.98,
+    41.04
+   ],
+   [
+    41.6,
+    48.08
+   ],
+   [
+    48.42,
+    50.96
+   ],
+   [
+    51.14,
+    53.9
+   ],
+   [
+    55.52,
+    60.54
+   ],
+   [
+    61.16,
+    63.54
+   ],
+   [
+    64.14,
+    72.9
+   ],
+   [
+    74.3,
+    82.82
+   ],
+   [
+    83.58,
+    85.46
+   ],
+   [
+    86.1,
+    94.48
+   ],
+   [
+    95.36,
+    98.64
+   ],
+   [
+    98.96,
+    102.38
+   ],
+   [
+    104.51,
+    110.38
+   ],
+   [
+    110.8,
+    118.98
+   ],
+   [
+    119.56,
+    123.66
+   ],
+   [
+    123.98,
+    129.56
+   ],
+   [
+    130.06,
+    135.94
+   ],
+   [
+    136.44,
+    138.44
+   ],
+   [
+    138.98,
+    142.68
+   ],
+   [
+    144.14,
+    150.92
+   ],
+   [
+    151.18,
+    157.92
+   ],
+   [
+    159.56,
+    165.74
+   ],
+   [
+    167.5,
+    169.04
+   ],
+   [
+    169.94,
+    178.02
+   ],
+   [
+    179.22,
+    185.76
+   ],
+   [
+    187.98,
+    192.9
+   ],
+   [
+    195.02,
+    202.38
+   ],
+   [
+    203.44,
+    209.02
+   ],
+   [
+    209.54,
+    218.01
+   ],
+   [
+    218.03,
+    223.27
+   ],
+   [
+    223.29,
+    229.34
+   ],
+   [
+    229.8,
+    237.06
+   ],
+   [
+    238.62,
+    240.24
+   ],
+   [
+    240.76,
+    245.41
+   ],
+   [
+    245.43,
+    250.44
+   ],
+   [
+    251.06,
+    257.76
+   ],
+   [
+    259.28,
+    265.94
+   ],
+   [
+    266.88,
+    274.7
+   ],
+   [
+    275.3,
+    280.14
+   ],
+   [
+    281.06,
+    288.64
+   ],
+   [
+    290.08,
+    296.24
+   ],
+   [
+    297.22,
+    303.66
+   ],
+   [
+    304.16,
+    306.12
+   ],
+   [
+    306.7,
+    308.7
+   ],
+   [
+    309.1,
+    313.28
+   ],
+   [
+    313.56,
+    318.16
+   ],
+   [
+    318.3,
+    326.76
+   ],
+   [
+    327.2,
+    329.36
+   ],
+   [
+    330.92,
+    332.78
+   ],
+   [
+    333.4,
+    337.42
+   ],
+   [
+    338.22,
+    343.98
+   ],
+   [
+    345.38,
+    353.94
+   ],
+   [
+    355.22,
+    359.85
+   ],
+   [
+    359.87,
+    364.94
+   ],
+   [
+    368.32,
+    375.7
+   ],
+   [
+    387.34,
+    394.74
+   ],
+   [
+    395.48,
+    401.18
+   ],
+   [
+    401.5,
+    406.18
+   ],
+   [
+    406.46,
+    412.12
+   ],
+   [
+    412.22,
+    418.26
+   ],
+   [
+    419.38,
+    421.7
+   ],
+   [
+    422.18,
+    426.98
+   ],
+   [
+    427.26,
+    430.28
+   ],
+   [
+    430.52,
+    432.4
+   ],
+   [
+    433.7,
+    442.56
+   ],
+   [
+    443.88,
+    448.16
+   ],
+   [
+    449.48,
+    456.94
+   ],
+   [
+    457.82,
+    459.66
+   ],
+   [
+    460.18,
+    463.98
+   ],
+   [
+    465.56,
+    469.96
+   ],
+   [
+    470.54,
+    473.5
+   ],
+   [
+    474.38,
+    476.54
+   ],
+   [
+    477.22,
+    479.3
+   ],
+   [
+    480.58,
+    484.0
+   ],
+   [
+    484.42,
+    488.16
+   ],
+   [
+    489.26,
+    496.62
+   ],
+   [
+    500.64,
+    506.11
+   ],
+   [
+    506.13,
+    514.14
+   ],
+   [
+    515.14,
+    518.24
+   ],
+   [
+    519.4,
+    521.3
+   ],
+   [
+    522.34,
+    528.75
+   ],
+   [
+    528.77,
+    535.4
+   ],
+   [
+    535.66,
+    538.74
+   ],
+   [
+    539.06,
+    544.88
+   ],
+   [
+    546.46,
+    550.02
+   ],
+   [
+    550.46,
+    554.0
+   ],
+   [
+    554.02,
+    558.4
+   ],
+   [
+    559.18,
+    565.52
+   ],
+   [
+    566.06,
+    570.26
+   ],
+   [
+    570.52,
+    575.04
+   ],
+   [
+    576.94,
+    578.88
+   ],
+   [
+    579.5,
+    587.62
+   ],
+   [
+    589.72,
+    592.64
+   ],
+   [
+    593.14,
+    595.5
+   ],
+   [
+    596.0,
+    598.78
+   ],
+   [
+    599.8,
+    605.96
+   ],
+   [
+    607.28,
+    612.0
+   ],
+   [
+    612.68,
+    615.6
+   ],
+   [
+    618.6,
+    623.68
+   ],
+   [
+    624.1,
+    627.16
+   ],
+   [
+    627.44,
+    629.94
+   ],
+   [
+    630.4,
+    637.06
+   ],
+   [
+    637.66,
+    644.3
+   ],
+   [
+    645.24,
+    647.06
+   ],
+   [
+    647.24,
+    655.4
+   ],
+   [
+    658.24,
+    661.36
+   ],
+   [
+    662.02,
+    666.32
+   ],
+   [
+    667.1,
+    669.8
+   ],
+   [
+    670.62,
+    679.0
+   ],
+   [
+    679.82,
+    686.86
+   ],
+   [
+    687.28,
+    688.96
+   ],
+   [
+    689.58,
+    691.5
+   ],
+   [
+    692.46,
+    698.82
+   ],
+   [
+    700.05,
+    702.52
+   ],
+   [
+    705.02,
+    707.32
+   ]
+  ]
+ }
+];
   function renderPresets() {
     if (location.protocol.indexOf('http') !== 0) { $('presetCard').hidden = true; return; }
-    var box = $('presetList');
-    box.innerHTML = '';
+    var box = $('presetList'); box.innerHTML = '';
     PRESETS.forEach(function (p) {
       var row = document.createElement('div');
       row.className = 'mat';
-      row.innerHTML = '<div class="info"><div class="name">' + esc(p.name) + '</div>' +
-        '<div class="meta">' + p.practice.length + ' 句 · ' + p.dur + ' · 含练习版+核对版</div></div>' +
+      var ready = p.segs && p.segs.length === p.practice.length;
+      row.innerHTML = '<div class="info"><div class="name">' + esc(p.name) +
+        (ready ? '<span class="badge">导入即练</span>' : '') + '</div>' +
+        '<div class="meta">' + p.practice.length + ' 句 · ' + p.dur + ' · ' + (p.note || '含练习版+核对版') + '</div></div>' +
         '<button class="gold imp">导入</button>';
       row.querySelector('.imp').addEventListener('click', function (ev) {
         ev.target.disabled = true; ev.target.textContent = '下载中…';
-        fetch(p.audio)
-          .then(function (r) { if (!r.ok) throw new Error(r.status); return r.blob(); })
+        fetch(p.audio).then(function (r) { if (!r.ok) throw new Error(r.status); return r.blob(); })
           .then(function (blob) {
-            cur = {
+            var m = {
               id: Date.now(), name: p.name, audio: blob, audioType: blob.type,
               practice: p.practice.slice(), check: p.check ? p.check.slice() : null,
-              ends: null, done: p.practice.map(function () { return false; }), recs: {}
+              segs: p.segs ? p.segs.map(function (x) { return x.slice(); }) : null,
+              done: p.practice.map(function () { return false; }), recs: {}
             };
-            setAudioSrc(cur.audio);
-            toast('音频已就位。现在断句标记——顺便就是第一遍精听。');
-            startMark();
+            return idbPut(m).then(function () {
+              cur = m; setAudioSrc(blob); idx = 0;
+              ev.target.disabled = false; ev.target.textContent = '导入';
+              if (m.segs) { toast('可以直接开练了。空格 = 循环这句。'); show('viewBench'); renderBench(); }
+              else { markSegs = []; markN = 0; startMark(); }
+            });
           })
           .catch(function () {
             ev.target.disabled = false; ev.target.textContent = '导入';

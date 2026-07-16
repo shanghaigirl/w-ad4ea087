@@ -289,7 +289,7 @@ footer a { color: var(--gold); text-decoration: none; }
           <button id="fPrev">← 上一句</button>
           <button id="fNext">下一句 →</button>
         </div>
-        <div class="hint-block">空格 = 循环本句 · <b>R = 跟读录</b>：原声开始放，你落后半秒跟着说，说完自动停、自动放你的录音 · ↑↓ 切句 · ↵ 过关</div>
+        <div class="hint-block">空格 = 循环本句 · <b>R = 跟读录</b>：原声放这一段，你落后半秒跟着说。<b>原声停了录音还在录 —— 你说完再按一次 R 收尾</b>，收尾后自动放你的录音 · ↑↓ 切句 · ↵ 过关</div>
         <div class="warnbox" id="hpHint">🎧 <b>请戴耳机</b> —— 跟读录是边放原声边录你。外放的话麦克风会把原声一起收进去，录音变成混音，节奏和音高也测不准。</div>
 
         <details class="drawer" id="drawer">
@@ -667,7 +667,7 @@ footer a { color: var(--gold); text-decoration: none; }
     $('fLoop').textContent = looping ? '❚❚' : '▶';
     $('fLoop').classList.toggle('play', looping);
     $('fRec').className = recing ? 'recing' : '';
-    $('fRec').innerHTML = recing ? '■ 停录<span class="kb">R</span>' : '● 跟读录<span class="kb">R</span>';
+    $('fRec').innerHTML = recing ? '■ 说完了，停<span class="kb">R</span>' : '● 跟读录<span class="kb">R</span>';
     $('focusBox').classList.toggle('rec-on', recing);
     var has = !!(cur.recs[idx] && cur.recs[idx].length);
     $('fMine').disabled = !has; $('fAB').disabled = !has;
@@ -703,7 +703,11 @@ footer a { color: var(--gold); text-decoration: none; }
   $('fPrev').addEventListener('click', function () { go(-1); });
   $('fNext').addEventListener('click', function () { go(1); });
   function go(d) { stopSound(); idx = Math.max(0, Math.min(texts().length - 1, idx + d)); renderBench(); }
-  function stopSound() { audio.pause(); looping = false; mode = null; if (mineAudio) { mineAudio.pause(); mineAudio = null; } }
+  function stopSound() {
+    clearTimeout(audioStopT);
+    audio.pause(); looping = false; mode = null;
+    if (mineAudio) { mineAudio.pause(); mineAudio = null; }
+  }
 
   function toggleLoop() {
     if (looping) { stopSound(); }
@@ -716,6 +720,8 @@ footer a { color: var(--gold); text-decoration: none; }
     var s = seg(idx); if (!s) return;
     if (looping && audio.currentTime >= s[1] - 0.02) audio.currentTime = s[0];
     if (mode === 'ab' && audio.currentTime >= s[1] - 0.02) { audio.pause(); mode = null; playMine(); }
+    /* 跟读录：原声放到段尾就停，别串到下一句去。录音继续，等你按 R。 */
+    if (recing && !wholeRec && audio.currentTime >= s[1] - 0.02) audio.pause();
   });
 
   /* 微调边界 */
@@ -737,7 +743,7 @@ footer a { color: var(--gold); text-decoration: none; }
     echoCancellation: false, autoGainControl: false, noiseSuppression: false,
     channelCount: 1
   } };
-  var autoStopT = null;
+  var autoStopT = null, audioStopT = null;
 
   function toggleRec() {
     if (recing) { try { recorder.stop(); } catch (e) {} return; }
@@ -749,7 +755,7 @@ footer a { color: var(--gold); text-decoration: none; }
       recing = true; recStart = Date.now();
       recorder.ondataavailable = function (e) { if (e.data.size) recChunks.push(e.data); };
       recorder.onstop = function () {
-        clearTimeout(autoStopT);
+        clearTimeout(autoStopT); clearTimeout(audioStopT);
         audio.pause(); looping = false;
         var dur = (Date.now() - recStart) / 1000;
         var blob = new Blob(recChunks, { type: recorder.mimeType || 'audio/webm' });
@@ -769,18 +775,24 @@ footer a { color: var(--gold); text-decoration: none; }
         });
       };
       recorder.start();
-      /* 跟读录：原声同时放，你落后半秒跟着说。
-         段末再留 TAIL 秒自动停 —— 你话音刚落就停，不用手动去点。 */
+      /* 跟读录：原声放这一段，你落后半秒跟着说。
+         原声到段尾会自己停（见 timeupdate），但录音不停 —— 你说完了再按 R。
+         什么时候说完只有你知道，不该由原声替你决定。 */
       if (!wholeRec) {
         var s = seg(idx);
         audio.currentTime = s[0];
         play(audio);
-        var TAIL = 1.0;
-        var ms = ((s[1] - s[0]) / audio.playbackRate + TAIL) * 1000;
-        autoStopT = setTimeout(function () {
-          if (recing) { try { recorder.stop(); } catch (e) {} }
-        }, ms);
+        /* 用精确计时器停原声：timeupdate 每秒才 ~4 次，靠它会多漏 250ms 到下一句。
+           停的只是原声——录音继续，等你按 R。 */
+        clearTimeout(audioStopT);
+        audioStopT = setTimeout(function () {
+          if (recing) audio.pause();
+        }, (s[1] - s[0]) / audio.playbackRate * 1000);
       }
+      /* 兜底：万一忘了停，60 秒后自动收，免得录出一个巨大的文件 */
+      autoStopT = setTimeout(function () {
+        if (recing) { toast('录了 60 秒，先帮你停下了。'); try { recorder.stop(); } catch (e) {} }
+      }, 60000);
       renderBench();
     }).catch(function () { toast('需要麦克风权限才能录音。'); });
   }

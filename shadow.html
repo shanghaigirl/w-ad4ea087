@@ -943,7 +943,10 @@ footer a { color: var(--gold); text-decoration: none; }
     return new Promise(function (res) {
       var d = ab.getChannelData(0), sr = ab.sampleRate;
       var win = Math.floor(sr * 0.04), hop = Math.floor(sr * 0.02);
-      var lo = Math.floor(sr / 400), hi = Math.min(Math.floor(sr / 70), win - 1);
+      /* 只在 120–350Hz 里找。放宽到 70Hz 会触发倍频错误：
+         自相关把两个周期当成一个，把 210Hz 报成 105Hz —— 实测在真人录音上出现过。
+         女声全在这个区间内；若日后加男声素材，下限要放到 80。 */
+      var lo = Math.floor(sr / 350), hi = Math.min(Math.floor(sr / 120), win - 1);
       // 先估底噪，只在明显有声的帧上测
       var frames = [];
       for (var p = 0; p + win < d.length; p += hop) {

@@ -282,14 +282,15 @@ footer a { color: var(--gold); text-decoration: none; }
           <button id="fNudgeR" title="本句终点延后 0.1s">微调▸</button>
         </div>
         <div class="keys">
-          <button id="fRec">● 录<span class="kb">R</span></button>
+          <button id="fRec">● 跟读录<span class="kb">R</span></button>
           <button id="fMine" disabled>▶ 听我的<span class="kb">M</span></button>
           <button id="fAB" disabled>A/B 对比<span class="kb">A</span></button>
           <button id="fPass">过关<span class="kb">↵</span></button>
           <button id="fPrev">← 上一句</button>
           <button id="fNext">下一句 →</button>
         </div>
-        <div class="hint-block">空格 = 循环本句 · R = 录（再按停，<b>停了自动放你的录音</b>） · ↑↓ 切句 · ↵ 过关</div>
+        <div class="hint-block">空格 = 循环本句 · <b>R = 跟读录</b>：原声开始放，你落后半秒跟着说，说完自动停、自动放你的录音 · ↑↓ 切句 · ↵ 过关</div>
+        <div class="warnbox" id="hpHint">🎧 <b>请戴耳机</b> —— 跟读录是边放原声边录你。外放的话麦克风会把原声一起收进去，录音变成混音，节奏和音高也测不准。</div>
 
         <details class="drawer" id="drawer">
           <summary>复盘 —— 节奏、音高、录音历史</summary>
@@ -304,7 +305,7 @@ footer a { color: var(--gold); text-decoration: none; }
       <div class="progressline" id="benchProgress"></div>
       <div class="bar"><i id="benchBar" style="width:0%"></i></div>
       <div class="keys" style="margin-top:14px;">
-        <button id="btnWhole">整篇通录</button>
+        <button id="btnWhole" title="从头放到尾，你全程跟读">整篇通录</button>
         <button id="btnExport">导出备份</button>
         <button id="btnRemark">重新断句</button>
       </div>
@@ -666,7 +667,7 @@ footer a { color: var(--gold); text-decoration: none; }
     $('fLoop').textContent = looping ? '❚❚' : '▶';
     $('fLoop').classList.toggle('play', looping);
     $('fRec').className = recing ? 'recing' : '';
-    $('fRec').innerHTML = recing ? '■ 停录<span class="kb">R</span>' : '● 录<span class="kb">R</span>';
+    $('fRec').innerHTML = recing ? '■ 停录<span class="kb">R</span>' : '● 跟读录<span class="kb">R</span>';
     $('focusBox').classList.toggle('rec-on', recing);
     var has = !!(cur.recs[idx] && cur.recs[idx].length);
     $('fMine').disabled = !has; $('fAB').disabled = !has;
@@ -730,16 +731,26 @@ footer a { color: var(--gold); text-decoration: none; }
   }
 
   /* ---------- 录音 ---------- */
+  /* 关掉浏览器的自动增益/降噪/回声消除 —— 它们会改动你的音量和音高，让复盘的数字测不准。
+     前提是戴耳机：原声只进耳朵，麦克风只收到你，不需要回声消除。 */
+  var MIC = { audio: {
+    echoCancellation: false, autoGainControl: false, noiseSuppression: false,
+    channelCount: 1
+  } };
+  var autoStopT = null;
+
   function toggleRec() {
     if (recing) { try { recorder.stop(); } catch (e) {} return; }
     stopSound();
-    navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+    navigator.mediaDevices.getUserMedia(MIC).then(function (stream) {
       micStream = stream; recChunks = [];
       try { recorder = new MediaRecorder(stream); }
       catch (e) { toast('这个浏览器不支持录音。'); releaseMic(); return; }
       recing = true; recStart = Date.now();
       recorder.ondataavailable = function (e) { if (e.data.size) recChunks.push(e.data); };
       recorder.onstop = function () {
+        clearTimeout(autoStopT);
+        audio.pause(); looping = false;
         var dur = (Date.now() - recStart) / 1000;
         var blob = new Blob(recChunks, { type: recorder.mimeType || 'audio/webm' });
         recing = false; releaseMic();
@@ -758,6 +769,18 @@ footer a { color: var(--gold); text-decoration: none; }
         });
       };
       recorder.start();
+      /* 跟读录：原声同时放，你落后半秒跟着说。
+         段末再留 TAIL 秒自动停 —— 你话音刚落就停，不用手动去点。 */
+      if (!wholeRec) {
+        var s = seg(idx);
+        audio.currentTime = s[0];
+        play(audio);
+        var TAIL = 1.0;
+        var ms = ((s[1] - s[0]) / audio.playbackRate + TAIL) * 1000;
+        autoStopT = setTimeout(function () {
+          if (recing) { try { recorder.stop(); } catch (e) {} }
+        }, ms);
+      }
       renderBench();
     }).catch(function () { toast('需要麦克风权限才能录音。'); });
   }
@@ -804,14 +827,9 @@ footer a { color: var(--gold); text-decoration: none; }
     var body = $('drawerBody');
     var r = latest(idx);
     if (!r) { body.innerHTML = '<div class="empty-note">这句还没录音。按 R 录一条，这里会出现节奏和音高对比。</div>'; return; }
-    var s = seg(idx), want = s[1] - s[0], got = r.dur;
-    var diff = got - want, pct = Math.abs(diff) / want;
-    var cls = pct < 0.12 ? 'good' : (pct < 0.28 ? '' : 'warn');
-    var verdict = pct < 0.12 ? '节奏很贴' : (diff > 0 ? '你说得偏慢' : '你说得偏快');
+    var s = seg(idx);
     body.innerHTML =
-      '<div class="metric"><span class="k">原句时长</span><span class="v num">' + want.toFixed(2) + 's</span></div>' +
-      '<div class="metric"><span class="k">你的时长</span><span class="v num ' + cls + '">' + got.toFixed(2) + 's</span>' +
-        '<span class="' + cls + '">（' + (diff > 0 ? '+' : '') + diff.toFixed(2) + 's，' + verdict + '）</span></div>' +
+      '<div class="metric"><span class="k">说话时长</span><span class="v" id="rhythmV">测量中…</span></div>' +
       '<div class="metric"><span class="k">音高对比</span><span class="v" id="pitchV">测量中…</span></div>' +
       '<div style="margin-top:10px"><canvas class="wave" id="wOrig"></canvas><div class="wlab">原声波形</div>' +
       '<canvas class="wave" id="wMine"></canvas><div class="wlab">你的波形 —— 看两条的起伏和长短对不对得上</div></div>' +
@@ -836,18 +854,60 @@ footer a { color: var(--gold); text-decoration: none; }
       a.click();
     });
     drawWave($('wOrig'), sliceOriginal(s));
-    r.blob.arrayBuffer().then(function (b) { return AC().decodeAudioData(b); })
-      .then(function (ab) { drawWave($('wMine'), Promise.resolve(ab)); return ab; })
-      .then(function (ab) { return pitchOf(ab).then(function (mine) {
-          return sliceOriginal(s).then(function (oab) { return pitchOf(oab).then(function (orig) {
-            var el = $('pitchV'); if (!el) return;
-            if (!mine || !orig) { el.textContent = '测不出（声音太轻或太短）'; return; }
-            var d = mine - orig;
-            el.innerHTML = '你 <b class="num">' + Math.round(mine) + ' Hz</b> · 原声 <b class="num">' + Math.round(orig) + ' Hz</b> ' +
-              '<span class="' + (Math.abs(d) < 18 ? 'good' : 'warn') + '">（' + (d > 0 ? '高' : '低') + ' ' + Math.abs(Math.round(d)) + ' Hz）</span>';
-          }); });
-        }); })
-      .catch(function () { var el = $('pitchV'); if (el) el.textContent = '测不出'; });
+    Promise.all([
+      r.blob.arrayBuffer().then(function (b) { return AC().decodeAudioData(b); }),
+      sliceOriginal(s)
+    ]).then(function (both) {
+      var mineAb = both[0], origAb = both[1];
+      drawWave($('wMine'), Promise.resolve(mineAb));
+
+      /* 节奏：两边都掐掉前后静音，只比"真正在说话"的那段 ——
+         录音固定留了 1s 尾巴，比总时长没有意义。 */
+      var gotSpan = speechSpan(mineAb), wantSpan = speechSpan(origAb);
+      var el = $('rhythmV');
+      if (el) {
+        if (!gotSpan || !wantSpan) { el.textContent = '测不出（声音太轻）'; }
+        else {
+          var d = gotSpan - wantSpan, pct = Math.abs(d) / wantSpan;
+          var cls = pct < 0.12 ? 'good' : (pct < 0.28 ? '' : 'warn');
+          var verdict = pct < 0.12 ? '节奏很贴' : (d > 0 ? '你说得偏慢' : '你说得偏快');
+          el.innerHTML = '你 <b class="num">' + gotSpan.toFixed(2) + 's</b> · 原声 <b class="num">' + wantSpan.toFixed(2) + 's</b> ' +
+            '<span class="' + cls + '">（' + (d > 0 ? '+' : '') + d.toFixed(2) + 's，' + verdict + '）</span>';
+        }
+      }
+
+      return Promise.all([pitchOf(mineAb), pitchOf(origAb)]).then(function (p) {
+        var mine = p[0], orig = p[1], el2 = $('pitchV');
+        if (!el2) return;
+        if (!mine || !orig) { el2.textContent = '测不出（声音太轻或太短）'; return; }
+        var dd = mine - orig;
+        el2.innerHTML = '你 <b class="num">' + Math.round(mine) + ' Hz</b> · 原声 <b class="num">' + Math.round(orig) + ' Hz</b> ' +
+          '<span class="' + (Math.abs(dd) < 18 ? 'good' : 'warn') + '">（' + (dd > 0 ? '高' : '低') + ' ' + Math.abs(Math.round(dd)) + ' Hz）</span>';
+      });
+    }).catch(function () {
+      ['rhythmV', 'pitchV'].forEach(function (i) { var e = $(i); if (e) e.textContent = '测不出'; });
+    });
+  }
+  /* 首个到最后一个有声帧之间的时长。
+     阈值必须相对信号本身 —— 现场录音底噪高，绝对阈值会把静音当人声。 */
+  function speechSpan(ab) {
+    var d = ab.getChannelData(0), sr = ab.sampleRate;
+    var win = Math.floor(sr * 0.02), n = Math.floor(d.length / win);
+    if (n < 3) return 0;
+    var rms = new Float32Array(n);
+    for (var i = 0; i < n; i++) {
+      var s = 0;
+      for (var j = 0; j < win; j++) { var v = d[i * win + j]; s += v * v; }
+      rms[i] = Math.sqrt(s / win);
+    }
+    var srt = Float32Array.from(rms).sort();
+    var noise = srt[Math.floor(n * 0.10)] || 1e-6;   // 底噪
+    var peak = srt[Math.floor(n * 0.95)] || 1e-5;    // 人声峰值
+    if (peak < 1e-4 || peak < noise * 1.8) return 0; // 全是噪声，没人说话
+    var th = Math.max(noise * 3, peak * 0.12);
+    var a = -1, b = -1;
+    for (var k = 0; k < n; k++) if (rms[k] > th) { if (a < 0) a = k; b = k; }
+    return a < 0 ? 0 : (b - a + 1) * 0.02;
   }
   function sliceOriginal(s) {
     return cur.audio.arrayBuffer().then(function (b) { return AC().decodeAudioData(b); }).then(function (ab) {
@@ -876,24 +936,41 @@ footer a { color: var(--gold); text-decoration: none; }
       g.stroke();
     }).catch(function () {});
   }
-  /* 自相关测基频（中位数） */
+  /* 自相关测基频（中位数）。
+     用「归一化自相关」= 相关系数 [0,1]，与音量无关 ——
+     绝对阈值会让安静的录音永远测不出（Kate 的现场录音 RMS 只有 0.02）。 */
   function pitchOf(ab) {
     return new Promise(function (res) {
       var d = ab.getChannelData(0), sr = ab.sampleRate;
       var win = Math.floor(sr * 0.04), hop = Math.floor(sr * 0.02);
-      var lo = Math.floor(sr / 400), hi = Math.floor(sr / 70), vals = [];
+      var lo = Math.floor(sr / 400), hi = Math.min(Math.floor(sr / 70), win - 1);
+      // 先估底噪，只在明显有声的帧上测
+      var frames = [];
       for (var p = 0; p + win < d.length; p += hop) {
         var e = 0; for (var i = 0; i < win; i++) e += d[p + i] * d[p + i];
-        if (Math.sqrt(e / win) < 0.012) continue;
-        var best = 0, bl = -1;
-        for (var lag = lo; lag < hi; lag++) {
-          var s = 0;
-          for (var k = 0; k < win - lag; k += 2) s += d[p + k] * d[p + k + lag];
-          s /= (win - lag);
-          if (s > best) { best = s; bl = lag; }
-        }
-        if (bl > 0 && best > 0.004) vals.push(sr / bl);
+        frames.push({ p: p, rms: Math.sqrt(e / win) });
       }
+      if (frames.length < 4) return res(null);
+      var srt = frames.map(function (f) { return f.rms; }).sort(function (a, b) { return a - b; });
+      var noise = srt[Math.floor(frames.length * 0.10)] || 1e-6;
+      var peak = srt[Math.floor(frames.length * 0.95)] || 1e-5;
+      var gate = Math.max(noise * 2.5, peak * 0.15, 1e-4);
+      var vals = [];
+      frames.forEach(function (f) {
+        if (f.rms < gate) return;
+        var p = f.p, best = 0, bl = -1;
+        for (var lag = lo; lag < hi; lag++) {
+          var s = 0, e0 = 0, e1 = 0;
+          for (var k = 0; k < win - lag; k++) {
+            var x = d[p + k], y = d[p + k + lag];
+            s += x * y; e0 += x * x; e1 += y * y;
+          }
+          var norm = Math.sqrt(e0 * e1);
+          var c = norm > 1e-12 ? s / norm : 0;      // 相关系数，与音量无关
+          if (c > best) { best = c; bl = lag; }
+        }
+        if (bl > 0 && best > 0.35) vals.push(sr / bl);
+      });
       if (vals.length < 4) return res(null);
       vals.sort(function (a, b) { return a - b; });
       res(vals[Math.floor(vals.length / 2)]);
@@ -972,7 +1049,7 @@ footer a { color: var(--gold); text-decoration: none; }
   "name": "Catherine（凯特）— Children's Mental Health Week (2017)",
   "audio": "media/kate.m4a",
   "dur": "3:20",
-  "note": "英式 RP · 慢而圆润 · 最易起步",
+  "note": "英式 RP · 慢而圆润 · 最易起步 · 音高 216Hz（你 202，差 1.2 个半音）",
   "practice": [
    "Thank you so much for such a warm welcome and it's such a treat to be here to support Children's Mental Health Week.",
    "People often ask me why I'm so interested in the mental health of children and young people and the answer is quite simple.",
@@ -1182,13 +1259,14 @@ footer a { color: var(--gold); text-decoration: none; }
     190.44,
     192.34
    ]
-  ]
+  ],
+  "pitch": 216
  },
  {
   "name": "Emma Watson — HeForShe (2014)",
   "audio": "media/emma.m4a",
   "dur": "11:47",
-  "note": "英式 RP · 偏亮 · 已剔除 2 分钟掌声",
+  "note": "英式 RP · 偏亮 · 已剔除 2 分钟掌声 · 音高 267Hz（你 202，差 4.8 个半音）",
   "practice": [
    "Your Excellencies,",
    "UN Secretary General,",
@@ -1938,7 +2016,8 @@ footer a { color: var(--gold); text-decoration: none; }
     705.02,
     707.32
    ]
-  ]
+  ],
+  "pitch": 267
  }
 ];
   function renderPresets() {

@@ -715,14 +715,20 @@ footer a { color: var(--gold); text-decoration: none; }
     renderBench();
   }
   $('fLoop').addEventListener('click', toggleLoop);
-  audio.addEventListener('timeupdate', function () {
+  /* 段尾检查：timeupdate 每秒只有 ~4 次，靠它会多漏 250ms 串到下一句开头，
+     所以播放期间用 requestAnimationFrame 每帧（~16ms）查一次。 */
+  function checkEnd() {
     if (!cur || !cur.segs) return;
     var s = seg(idx); if (!s) return;
-    if (looping && audio.currentTime >= s[1] - 0.02) audio.currentTime = s[0];
-    if (mode === 'ab' && audio.currentTime >= s[1] - 0.02) { audio.pause(); mode = null; playMine(); }
+    if (audio.currentTime < s[1] - 0.02) return;
+    if (looping) audio.currentTime = s[0];
+    else if (mode === 'ab') { audio.pause(); mode = null; playMine(); }
     /* 跟读录：原声放到段尾就停，别串到下一句去。录音继续，等你按 R。 */
-    if (recing && !wholeRec && audio.currentTime >= s[1] - 0.02) audio.pause();
-  });
+    else if (recing && !wholeRec) audio.pause();
+  }
+  function tick() { if (audio.paused) return; checkEnd(); requestAnimationFrame(tick); }
+  audio.addEventListener('play', function () { requestAnimationFrame(tick); });
+  audio.addEventListener('timeupdate', checkEnd);
 
   /* 微调边界 */
   $('fNudgeL').addEventListener('click', function () { nudge(0, -0.1); });
